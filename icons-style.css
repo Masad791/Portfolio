@@ -1,0 +1,1078 @@
+/* ==========================================
+     1. ROOT VARIABLES & THEMING
+     You can change the colors of the entire site here. 
+     ========================================== */
+:root {
+  --bg: #f2f0eb; /* Egg White Background */
+  --fg: #0e0e0f; /* Light Black Text */
+  --muted: #626264; /* Gray text for paragraphs */
+  --line: rgba(14, 14, 15, 0.297); /* Border lines */
+  --bh-red: rgba(171, 53, 3, 0.945); /* Main Accent Color (Black Hole Red) */
+  --glass-bg: rgba(255, 255, 255, 0.5);
+  --tech-bg: rgba(242, 240, 235, 0.9);
+  --input-bg: #f2f0eb;
+  --nav-bg: rgba(242, 240, 235, 0.8);
+  --indicator-bg: rgba(14, 14, 15, 0.1);
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+  --bg: #0a0a0b;
+  --fg: #f2f0eb;
+  --muted: #888888;
+  --line: rgba(242, 240, 235, 0.15);
+  --bh-red: #ff4a1c;
+  --glass-bg: rgba(20, 20, 22, 0.6);
+  --tech-bg: rgba(20, 20, 22, 0.9);
+  --input-bg: #151516;
+  --nav-bg: rgba(10, 10, 11, 0.8);
+  --indicator-bg: rgba(242, 240, 235, 0.15);
+}
+
+/* ==========================================
+     2. GLOBAL RESETS & BASE STYLES
+     ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+/* Custom Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bh-red);
+  border-radius: 10px;
+}
+
+
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Space Grotesk", sans-serif;
+  overflow-x: hidden;
+  cursor: none; /* Hide default cursor for custom one */
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
+}
+
+
+ /* --- Dock Layout & Position --- */
+    #dock-wrapper {
+        position: fixed;
+        top: calc(50vh - 75px); 
+        left: 0;
+        width: 80px;
+        z-index: 9998; /* Below cursor canvas, above content */
+    }
+
+    #dock {
+        position: relative;
+        left: 30px; 
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        padding: 15px 0;
+        user-select: none;
+    }
+
+    #dock .icon-container {
+        position: relative;
+        width: 50px;
+        height: 50px;
+    }
+
+    #dock .icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background: #e3e3e3; /* Soft Charcoal instead of harsh pure black */
+        backdrop-filter: blur(12px) saturate(180%);
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
+        border: 1px solid rgba(35, 35, 35, 0.336); /* Subtle light edge for depth */
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #C75D26; /* Refined, elegant burnt orange */
+        text-decoration: none;
+        z-index: 2;
+        box-shadow: 
+            0 4px 15px rgba(0,0,0,0.15), 
+            inset 0 1px 1px rgba(255,255,255,0.2), 
+            inset 0 -1px 2px rgba(0,0,0,0.3);
+        transition: background 0.3s, border-color 0.3s, color 0.3s;
+    }
+
+    [data-theme="dark"] #dock .icon{
+        background-color: #0a0a0b;
+        color: rgb(235, 234, 234);
+                border: 1px solid rgba(213, 213, 213, 0.542); /* Subtle light edge for depth */
+
+    }
+
+    #dock .icon svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+        pointer-events: none; 
+        filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
+    }
+
+ #dock .jelly-base {
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        width: 38px;
+        height: 12px;
+        background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.3), rgba(100, 150, 255, 0.05));
+        border-radius: 50%;
+        transform: translateX(-50%) scaleY(0.5);
+        transform-origin: top center;
+        opacity: 0;
+        z-index: 1;
+        filter: blur(20px);
+        pointer-events: none;
+    }
+
+    /* --- Responsive Design for Mobile --- */
+    @media (1360px >= width >= 1568px) {
+        #dock-wrapper {
+            top: calc(50vh - 55px); 
+            width: 60px;
+        }
+        #dock {
+            left: 10px; /* Closer to the edge */
+            gap: 15px;
+        }
+        #dock .icon-container {
+            width: 40px;
+            height: 40px;
+        }
+        #dock .icon {
+            width: 40px;
+            height: 40px;
+        }
+        #dock .icon svg {
+            width: 18px;
+            height: 18px;
+        }
+        #dock .jelly-base {
+            width: 30px;
+            height: 10px;
+        }
+    }
+
+       @media (300px <= width <= 1360px) {
+        #dock-wrapper {
+            display: none;
+        }
+    }
+
+
+/* Touch Screen Fallback (Disable custom cursor) */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+  #cursor-canvas {
+    display: none;
+  }
+  .submit-btn,
+  .nav-link,
+  button,
+  .theme-toggle {
+    cursor: pointer;
+  }
+}
+
+/* ==========================================
+     3. OVERLAYS (Noise & Stars)
+     ========================================== */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.bg-stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.3;
+}
+#cursor-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ==========================================
+     4. NAVIGATION
+     ========================================== */
+nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  border: 1px dashed var(--line);
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition:
+  border 1.3s,
+    opacity 0.6s,
+    background 0.4s;
+  max-width: 95vw;
+}
+
+[data-theme="dark"] nav:hover{
+  border: 1px dashed #d1530a83 ;
+}
+
+nav:hover{
+  border: 1px dashed #c856047f ;
+}
+nav.hidden {
+  transform: translateX(-50%) translateY(-200%);
+  opacity: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+  height: 16px;
+  position: relative;
+  align-items: center;
+}
+.nav-link {
+    cursor: none;
+  position: relative;
+  height: 100%;
+  width: 60px;
+  text-decoration: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--fg);
+  overflow: hidden;
+  display: block;
+  z-index: 2;
+}
+
+.nav-link.active {
+  color: #ca670acc; /* The color you want it to change to */
+}
+
+/* Rolling Text Effect on Hover */
+.nav-link span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  line-height: 16px;
+}
+.nav-link span:nth-child(2) {
+  transform: translateY(100%);
+}
+.nav-link:hover span:nth-child(1) {
+  transform: translateY(-100%);
+}
+.nav-link:hover span:nth-child(2) {
+  transform: translateY(0);
+}
+
+/* Sliding Active Indicator */
+#nav-indicator {
+  position: absolute;
+  top: -5px;
+  left: 5px;
+  height: 27px;
+  width: 46px;
+  background: var(--indicator-bg);
+  border-radius: 20px;
+  z-index: 1;
+  pointer-events: none;
+  transition: background 0.5s;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: none;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  transition: color 0.4s;
+}
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ==========================================
+     5. LAYOUT & SIDE DETAILS
+     ========================================== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+}
+.side-detail {
+  position: fixed;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--muted);
+  z-index: 100;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.4s;
+}
+.side-left {
+  left: 15px;
+  bottom: 30px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.side-right {
+  right: 15px;
+  bottom: 15px;
+  text-align: right;
+}
+
+/* ==========================================
+     6. HERO SECTION
+     ========================================== */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 100px 20px;
+}
+#hero h1 {
+  font-size: clamp(3.5rem, 12vw, 15rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-align: center;
+  z-index: 2;
+}
+#hero h1 .italic {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--bh-red);
+}
+.hero-meta {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+  z-index: 2;
+}
+
+/* Floating Tech Boxes */
+.tech-box {
+  position: absolute;
+  padding: 12px;
+  background: var(--tech-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.29);
+  opacity: 1;
+  transform: translateY(50px);
+  z-index: 2;
+  transition:
+    background 0.5s,
+    border-color 0.6s;
+}
+
+
+.tech-box h4 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.tech-box p {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+.tb-tl {
+  top: 20vh;
+  left: 10vw;
+  transition: all .5s;
+  border-left: 4px solid #777bb4;
+}
+
+.tb-tl:hover {
+border: solid #474a74;
+border-width: 1px 1px 1px 4px;
+  
+}
+.tb-tr {
+  top: 20vh;
+  right: 10vw;
+  border-right: 4px solid #b3c60e;
+} 
+
+.tb-tr:hover{
+  border: solid #9cac11f1;
+border-width: 1px 4px 1px 1px;
+}
+
+.tb-br {
+  bottom: 25vh;
+  right: 15vw;
+  border-right: 4px solid #c84606;
+} 
+
+.tb-br:hover{
+  border: solid #983909;
+border-width: 1px 4px 1px 1px;
+
+}
+
+
+/* ==========================================
+     7. MORPH SECTION (Image to Text)
+     ========================================== */
+#morph-section {
+  height: 200vh;
+  position: relative;
+}
+.morph-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#dev-image {
+  width: 60vw;
+  max-width: 600px;
+  height: 70vh;
+  object-fit: cover;
+  border-radius: 12px;
+  will-change: transform, opacity;
+}
+#dev-text {
+  position: absolute;
+  font-size: clamp(2.5rem, 15vw, 15rem);
+  font-weight: 700;
+  opacity: 0;
+  will-change: opacity, transform;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* ==========================================
+     8. SKILLS SECTION
+     ========================================== */
+#skills {
+  padding: 150px 0;
+}
+.skills-header {
+  margin-bottom: 60px;
+}
+.skills-header h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.skill-row {
+  border-bottom: 1px dashed var(--line);
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(50px);
+  gap: 15px;
+  transition: background-color 1s;
+}
+
+
+.meow{
+  color: #ab3503f1;
+}
+
+
+.skill-row h3 {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 400;
+}
+.skill-row p {
+  font-family: "JetBrains Mono", monospace;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+/* ==========================================
+     9. CAPABILITIES SECTION (New)
+     ========================================== */
+#capabilities {
+  padding: 100px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.caps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+.cap-item h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--bh-red);
+  font-family: "JetBrains Mono", monospace;
+}
+.cap-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+.cap-item p {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ==========================================
+     10. PROJECTS SECTION (3D Flip Cards)
+     ========================================== */
+#projects {
+  padding: 100px 0;
+}
+.projects-header {
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.projects-header h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+/* 3D Flip Card Setup */
+.project-card {
+  perspective: 1500px;
+  height: 400px;
+  opacity: 0;
+  transform: translateY(50px);
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+  transform-style: preserve-3d;
+}
+.project-card:hover .card-inner {
+  transform: rotateY(180deg);
+} /* Flip on hover */
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 50px #0000000d;
+}
+.card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card-front-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, #000000cc, transparent);
+  color: #fff;
+}
+.card-front-overlay h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background: var(--tech-bg);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: background 0.4s;
+}
+.card-back h3 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+.card-back p {
+  color: var(--muted);
+  margin-bottom: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.project-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tag {
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  transition: border-color 0.4s;
+}
+
+/* ==========================================
+     11. CONTACT FORM SECTION
+     ========================================== */
+#contact {
+  padding: 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+}
+.form-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  transition:
+    background 0.7s,
+    border-color 0.7s;
+}
+
+.form-wrapper:hover{
+   border: #ff491cb7 solid 1px;
+   
+}
+
+
+.form-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+}
+.form-left {
+  margin-top: 30px;
+  padding: 40px;
+  border-right: none;
+  border-bottom: 1px solid var(--line);
+  z-index: 1;
+  transition: border-color 0.4s;
+}
+.form-left h2 {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+.form-left p {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+.form-left ul {
+  margin-top: 40px;
+  list-style: none;
+}
+
+.form-left ul li {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.form-left ul li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--bh-red);
+  border-radius: 50%;
+}
+.form-right {
+  padding: 40px;
+  z-index: 1;
+}
+.form-group {
+  margin-bottom: 25px;
+  position: relative;
+}
+.form-group label {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+
+
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1rem;
+  color: var(--fg);
+  outline: none;
+  transition:
+    border-color 0.3s,
+    background 0.4s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--bh-red);
+}
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--fg);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: none;
+  transition:all 0.6s 
+}
+.submit-btn:hover {
+  background: var(--bh-red);
+  color: #fff;
+}
+
+/* Flying Email Animation Core */
+#email-core {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  z-index: 9000;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow:
+    0 0 20px var(--bh-red),
+    0 0 40px var(--bh-red);
+}
+
+/* ==========================================
+     12. MARQUEE SECTION (New)
+     ========================================== */
+.marquee {
+  overflow: hidden;
+  padding: 40px 0;
+  border-top: 1px solid #3d3c3cc7;
+  border-bottom: 1px solid #383737c7;
+  background: rgb(210, 210, 210);
+  transition:
+    background 0.6s,
+    border-color 0.4s;
+}
+
+
+.marquee-content {
+  display: flex;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+}
+.marquee-content span {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  padding: 0 40px;
+  color: #ffffff;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+[data-theme="dark"] .marquee-content span {
+  color: rgb(254, 254, 254); /* Changes text to the Black Hole Red/Orange */
+  opacity: 0.7; /* Increases visibility slightly from 0.1 to 0.2 */
+}
+
+[data-theme="dark"] .marquee {
+  background-color: #0c0c0c;
+  border-top: 1px solid #e76b05ad;
+  border-bottom: 1px solid #e76b05ad;
+}
+
+/* ==========================================
+     13. FOOTER BLACK HOLE SECTION
+     ========================================== */
+#footer-bh {
+  position: relative;
+  height: 80vh;
+  background: transparent;
+  transition: background 0.4s;
+  overflow: hidden;
+}
+/* Canvas is absolute to fill the section */
+#footer-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+/* Content is sticky to stay in view while scrolling through the 150vh section */
+.footer-content {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 20px;
+}
+.glass-panel {
+
+  background: rgba(14, 14, 15, 0.349);
+  backdrop-filter: blur(15px);
+  border: 3px solid #ebe9e82e;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  max-width: 90vw;
+}
+.glass-panel h2 {
+  font-size: clamp(1.5rem, 5vw, 5rem);
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.glass-panel p {
+  font-family: "JetBrains Mono", monospace;
+  color: var(--bh-red);
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+.glass-panel a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.by{
+  color: #e3682be1;
+}
+
+/* ==========================================
+     14. RESPONSIVE MEDIA QUERIES
+     ========================================== */
+@media (min-width: 768px) {
+  nav {
+    top: 30px;
+    gap: 40px;
+    padding: 12px 30px;
+  }
+  .nav-links {
+    gap: 30px;
+  }
+  .nav-link {
+    width: 70px;
+    font-size: 12px;
+  }
+  #nav-indicator {
+    width: 70px;
+  }
+  .tech-box {
+    padding: 15px;
+  }
+  .tech-box h4 {
+    font-size: 1.2rem;
+  }
+  .tech-box p {
+    font-size: 11px;
+  }
+  .container {
+    padding: 0 40px;
+  }
+  #hero h1 {
+    font-size: clamp(3rem, 10vw, 10rem);
+  }
+  .hero-meta {
+    font-size: 12px;
+    padding: 0 40px;
+  }
+  .skills-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .skill-row h3 {
+    font-size: 3rem;
+  }
+  .caps-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .projects-header h2 {
+    font-size: 4rem;
+  }
+  .projects-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .form-wrapper {
+    grid-template-columns: 1fr 1.5fr;
+  }
+  .form-left {
+    padding: 60px;
+    border-right: 1px solid var(--line);
+    border-bottom: none;
+  }
+  .form-right {
+    padding: 60px;
+  }
+  .form-left h2 {
+    font-size: 3rem;
+  }
+  .form-left p {
+    font-size: 1.1rem;
+  }
+  .form-group input,
+  .form-group textarea {
+    padding: 15px;
+  }
+  .submit-btn {
+    padding: 20px;
+    font-size: 14px;
+  }
+  .glass-panel {
+
+    padding: 60px;
+  }
+  .glass-panel p,
+  .glass-panel a {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1600px;
+  }
+  #hero h1 {
+    font-size: 14rem;
+  }
+  .tech-box h4 {
+    font-size: 1.5rem;
+  }
+  .tech-box p {
+    font-size: 13px;
+  }
+  .skill-row h3 {
+    font-size: 4rem;
+  }
+  .form-left h2 {
+    font-size: 4rem;
+  }
+  .glass-panel h2 {
+    font-size: 7rem;
+  }
+}
