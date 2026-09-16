@@ -1,287 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asad's Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="icons-style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asad's Portfolio // Software Engineer</title>
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
+  <!-- Immediate Theme Initializer: prevents initial flash on reload -->
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.style.backgroundColor = '#0a0a0b';
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          document.documentElement.style.backgroundColor = '#ffffff';
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
+  <!-- Netlify Build Form Detection -->
+  <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <textarea name="message"></textarea>
+  </form>
 
-<!-- BACKGROUND ELEMENTS -->
-<svg class="bg-stars" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <pattern id="star-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-      <circle cx="20" cy="20" r="1" fill="currentColor" opacity="0.4" />
-      <circle cx="80" cy="50" r="0.5" fill="currentColor" opacity="0.3" />
-      <circle cx="50" cy="90" r="1.5" fill="currentColor" opacity="0.2" />
-    </pattern>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#star-pattern)" style="color: var(--fg);" />
-</svg>
-<div class="noise-overlay"></div>
-<canvas id="cursor-canvas"></canvas>
+  <div id="root"></div>
 
-<!-- ==========================================
-     LIQUID GLASS SOCIALS DOCK
-     ========================================== -->
-<div id="dock-wrapper">
-  <div id="dock">
-    <div class="icon-container">
-      <a href="mailto:muhammadasaddev31@gmail.com" class="icon" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      </a>
-      <div class="jelly-base"></div>
-    </div>
-    <div class="icon-container">
-      <a href="https://www.linkedin.com/in/asaddevco/" class="icon" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-      </a>
-      <div class="jelly-base"></div>
-    </div>
-    <div class="icon-container">
-      <a href="https://github.com/Masad791" class="icon" target="_blank">
-        <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
-      </a>
-      <div class="jelly-base"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ==========================================
-     NAVIGATION BAR
-     ========================================== -->
-<nav id="main-nav">
-  <div class="nav-links">
-    <div id="nav-indicator"></div>
-    <a href="#hero" class="nav-link" data-target="hero"><span>Index</span><span>Home</span></a>
-    <a href="#skills" class="nav-link" data-target="skills"><span>Stack</span><span>Stack</span></a>
-    <a href="#projects" class="nav-link" data-target="projects"><span>Work</span><span>Work</span></a>
-    <a href="#contact" class="nav-link" data-target="contact"><span>Hire</span><span>Hire</span></a>
-  </div>
-  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
-    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-  </button>
-</nav>
-
-<!-- FIXED SIDE DETAILS -->
-<div class="side-detail side-left">EST. 2026 // LAT 29.3957° N</div>
-<div class="side-detail side-right" id="time-date">LOADING...</div>
-
-<!-- ==========================================
-     1. HERO SECTION
-     ========================================== -->
-<section id="hero">
-  <div class="tech-box tb-tl"><h4>PHP</h4><p>// Server Side</p></div>
-  <div class="tech-box tb-tr"><h4>Javascript</h4><p>// Web Front-end</p></div>
-  <div class="tech-box tb-br"><h4>Laravel</h4><p>// MVC Framework</p></div>
-  <h1>Software <br><span class="italic">Engineer</span></h1>
-  <div class="hero-meta"><span>// V 4.0.1</span><span>SCROLL TO EXPLORE [↓]</span><span>STATUS: AVAILABLE</span></div>
-</section>
-
-<!-- ==========================================
-     2. MORPH SECTION (Image to Text)
-     ========================================== -->
-<section id="morph-section">
-  <div class="morph-wrapper">
-    <img src="ME.png" id="dev-image" alt="ASAD">
-    <h2 id="dev-text">Mr. ASAD</h2>
-  </div>
-</section>
-
-<!-- ==========================================
-     3. SKILLS SECTION
-     ========================================== -->
-<section id="skills">
-  <div class="container">
-    <div class="skills-header">
-      <h2>System Architecture</h2>
-      <p style="font-family: 'JetBrains Mono', monospace; color: #ab3503f1;">// The stack that powers the singularity</p>
-    </div>
-    <div class="skills-grid">
-      <div>
-        <div class="skill-row"><h3>Frontend</h3><p>React / Vue</p></div>
-        <div class="skill-row meow"><h3>Backend</h3><p>PHP / Laravel</p></div>
-        <div class="skill-row"><h3>Database</h3><p>Postgres / MySql / Redis</p></div>
-      </div>
-      <div>
-        <div class="skill-row"><h3>WebGL</h3><p>Three.js / GLSL</p></div>
-        <div class="skill-row meow"><h3>DevOps</h3><p>Docker</p></div>
-        <div class="skill-row"><h3>Realtime</h3><p>WebSockets </p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==========================================
-     4. CAPABILITIES SECTION (New)
-     ========================================== -->
-<section id="capabilities">
-  <div class="container">
-    <div class="caps-grid">
-      <div class="cap-item">
-        <h4>// 01. Design & Motion</h4>
-        <h3>Immersive Interfaces</h3>
-        <p>Crafting dimensional web experiences using GSAP, Three.js, and pixel-perfect CSS. Bridging the gap between functionality and high-end art.</p>
-      </div>
-      <div class="cap-item">
-        <h4>// 02. Scalable Infrastructure</h4>
-        <h3>Distributed Systems</h3>
-        <p>Deploying resilient backends with Docker and Kubernetes. Capable of handling 50k+ concurrent connections with zero downtime.</p>
-      </div>
-      <div class="cap-item">
-        <h4>// 03. Data & State</h4>
-        <h3>Event-Driven Logic</h3>
-        <p>Architecting normalized databases and realtime state management. Ensuring data consistency across the entire event horizon.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==========================================
-     5. PROJECTS SECTION (3D Flip Cards)
-     ========================================== -->
-<section id="projects">
-  <div class="container">
-    <div class="projects-header">
-      <h2>Selected Work</h2>
-      <p style="font-family: 'JetBrains Mono', monospace; color: var(--bh-red);">2025 — 2026</p>
-    </div>
-    <div class="projects-grid">
-      <!-- Project 1 -->
-      <div class="project-card">
-        <div class="card-inner">
-          <div class="card-front">
-            <img src="Rohi-lms-project.png" alt="Project 1">
-            <div class="card-front-overlay"><h3>Nebula Platform</h3></div>
-          </div>
-          <div class="card-back">
-            <h3>Nebula Platform</h3>
-            <p>A high-traffic e-commerce engine handling 50k+ daily users. Built with Next.js, GraphQL, and a microservices architecture.</p>
-            <div class="project-tags"><span class="tag">React</span><span class="tag">Node</span><span class="tag">AWS</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 2 -->
-      <div class="project-card">
-        <div class="card-inner">
-          <div class="card-front">
-            <img src="Amg-trading.png" alt="Project 2">
-            <div class="card-front-overlay"><h3>Orbital Tracker</h3></div>
-          </div>
-          <div class="card-back">
-            <h3>Orbital Tracker</h3>
-            <p>Real-time satellite tracking dashboard using WebGL for 3D globe rendering and WebSockets for live data streams.</p>
-            <div class="project-tags"><span class="tag">Three.js</span><span class="tag">WebSockets</span><span class="tag">Go</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 3 -->
-      <div class="project-card">
-        <div class="card-inner">
-          <div class="card-front">
-            <img src="AMG trading.png" alt="Project 3">
-            <div class="card-front-overlay"><h3>Quantum CMS</h3></div>
-          </div>
-          <div class="card-back">
-            <h3>Quantum CMS</h3>
-            <p>A block-based, headless content management system designed for massive blogs. Features serverless image optimization.</p>
-            <div class="project-tags"><span class="tag">Vue.js</span><span class="tag">GraphQL</span><span class="tag">Redis</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 4 -->
-      <div class="project-card">
-        <div class="card-inner">
-          <div class="card-front">
-            <img src="Rohi-lms-project.png" alt="Project 4">
-            <div class="card-front-overlay"><h3>Synapse AI</h3></div>
-          </div>
-          <div class="card-back">
-            <h3>Synapse AI</h3>
-            <p>An AI-driven analytics dashboard that processes terabytes of log data to predict user churn using TensorFlow.</p>
-            <div class="project-tags"><span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">D3.js</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==========================================
-     6. MARQUEE SECTION (Scrolling Text)
-     ========================================== -->
-<div class="marquee">
-  <div class="marquee-content">
-    <span>HTML</span><span>CSS</span><span>JAVASCRIPT</span><span>REACT</span><span>PHP</span><span>THREE.JS</span><span>GSAP</span><span>WEBGL</span>
-    <span>HTML</span><span>CSS</span><span>JAVASCRIPT</span><span>REACT</span><span>Laravel</span><span>THREE.JS</span><span>GSAP</span><span>WEBGL</span>
-  </div>
-</div>
-
-<!-- ==========================================
-     7. CONTACT FORM SECTION
-     ========================================== -->
-<section id="contact">
-  <div class="form-wrapper" id="form-wrapper">
-    <svg class="form-bg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <pattern id="form-stars" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
-        <circle cx="10" cy="10" r="0.5" fill="currentColor" opacity="0.2" />
-        <circle cx="40" cy="30" r="1" fill="currentColor" opacity="0.1" />
-      </pattern>
-      <rect width="100%" height="100%" fill="url(#form-stars)" style="color: var(--fg);" />
-    </svg>
-    <div class="form-left">
-      <h2>Let's build.</h2>
-      <p>Have a project in mind? Drop the details below. Let's create something massive.</p>
-      <ul class="ul">
-        <li>Average response time: 2h</li>
-        <li>Available for freelance</li>
-        <li>Open to full-time roles</li>
-      </ul>
-    </div>
-    <div class="form-right">
-      <form id="contact-form">
-        <div class="form-group"><label>Name</label><input class="input" type="text" placeholder="Enter Name.." required></div>
-        <div class="form-group"><label>Email</label><input class="input" type="email" placeholder="Enter E-mail.." required></div>
-        <div class="form-group"><label>Message</label><textarea class="input" placeholder="Tell Me...." rows="4" required></textarea></div>
-        <button type="submit" class="submit-btn">Launch Message</button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- Flying Email Animation Core -->
-<div id="email-core"></div>
-
-<!-- ==========================================
-     8. FOOTER BLACK HOLE SECTION
-     ========================================== -->
-<footer id="footer-bh">
-  <canvas id="footer-canvas"></canvas>
-  <div class="footer-content">
-    <div class="glass-panel">
-      <h2 style="color: #e9ebed;"> <span class="by">Consumed</span> by  <span class="by">Code.</span></h2>
-      <p>// END OF TRANSMISSION</p>
-      <a href="mailto:muhammadasaddev31@gmail.com">muhammadasaddev31@gmail.com</a>
-    </div>
-  </div>
-</footer>
-
-<!-- ==========================================
-     JAVASCRIPT (GSAP, ScrollTrigger, Canvas Logic)
-     ========================================== -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="script.js"></script>
-<script src="script-icons.js"></script>
-
-
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
