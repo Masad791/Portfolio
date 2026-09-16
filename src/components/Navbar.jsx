@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTheme } from '../context/ThemeContext';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
@@ -12,6 +15,14 @@ export default function Navbar() {
   const [timeStr, setTimeStr] = useState('');
   const indicatorRef = useRef(null);
   const navLinksRef = useRef({});
+  const activeSectionRef = useRef('hero');
+  const isClickingRef = useRef(false);
+  const clickTimeoutRef = useRef(null);
+
+  // Keep activeSectionRef synced
+  useEffect(() => {
+    activeSectionRef.current = activeSection;
+  }, [activeSection]);
 
   // Clock in Karachi timezone
   useEffect(() => {
@@ -48,30 +59,190 @@ export default function Navbar() {
     gsap.to(indicator, {
       x: targetEl.offsetLeft,
       width: targetEl.offsetWidth,
-      duration: 0.4,
-      ease: 'power3.out',
+      duration: isClick ? 0.4 : 0.35,
+      ease: isClick ? 'power3.out' : 'power2.out',
+      overwrite: 'auto',
       onComplete: () => {
         if (isClick) {
           gsap.fromTo(
             indicator,
-            { x: targetEl.offsetLeft - 4 },
-            { x: targetEl.offsetLeft, duration: 0.08, yoyo: true, repeat: 3 }
+            { x: targetEl.offsetLeft - 3 },
+            { x: targetEl.offsetLeft, duration: 0.08, yoyo: true, repeat: 2 }
           );
         }
       }
     });
   };
 
+  // Initial positioning of indicator
   useEffect(() => {
-    // Position indicator initially
     const timer = setTimeout(() => {
-      moveIndicator(activeSection, false);
-    }, 150);
+      moveIndicator(activeSectionRef.current, false);
+    }, 200);
     return () => clearTimeout(timer);
-  }, [activeSection]);
+  }, []);
+
+  // Recalculate indicator position on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const targetEl = navLinksRef.current[activeSectionRef.current];
+      const indicator = indicatorRef.current;
+      if (targetEl && indicator) {
+        gsap.set(indicator, {
+          x: targetEl.offsetLeft,
+          width: targetEl.offsetWidth
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Scroll spy: Track current section on scroll and move nav indicator
+  useEffect(() => {
+    if (location.pathname !== '/') return;
+
+    let triggers = [];
+
+    const initScrollSpy = () => {
+      triggers.forEach((t) => t.kill());
+      triggers = [];
+
+      const heroEl = document.getElementById('hero');
+      const skillsEl = document.getElementById('skills');
+      const projectsEl = document.getElementById('projects');
+      const contactEl = document.getElementById('contact');
+
+      if (!heroEl || !skillsEl || !projectsEl || !contactEl) return;
+
+      // 1. Hero / Index
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: heroEl,
+          start: 'top top-=200',
+          endTrigger: skillsEl,
+          end: 'top 50%',
+          onEnter: () => {
+            if (!isClickingRef.current) moveIndicator('hero');
+          },
+          onEnterBack: () => {
+            if (!isClickingRef.current) moveIndicator('hero');
+          }
+        })
+      );
+
+      // 2. Stack / Skills
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: skillsEl,
+          start: 'top 50%',
+          endTrigger: projectsEl,
+          end: 'top 50%',
+          onEnter: () => {
+            if (!isClickingRef.current) moveIndicator('skills');
+          },
+          onEnterBack: () => {
+            if (!isClickingRef.current) moveIndicator('skills');
+          }
+        })
+      );
+
+      // 3. Work / Projects (active throughout horizontal scroll pin)
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: projectsEl,
+          start: 'top 50%',
+          endTrigger: contactEl,
+          end: 'top 50%',
+          onEnter: () => {
+            if (!isClickingRef.current) moveIndicator('projects');
+          },
+          onEnterBack: () => {
+            if (!isClickingRef.current) moveIndicator('projects');
+          }
+        })
+      );
+
+      // 4. Hire / Contact (active through form section and canvas footer)
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: contactEl,
+          start: 'top 50%',
+          end: 'max',
+          onEnter: () => {
+            if (!isClickingRef.current) moveIndicator('contact');
+          },
+          onEnterBack: () => {
+            if (!isClickingRef.current) moveIndicator('contact');
+          }
+        })
+      );
+
+      // Set initial active state based on current scroll position
+      const scrollY = window.scrollY;
+      if (scrollY < 80) {
+        moveIndicator('hero');
+      } else if (
+        window.innerHeight + scrollY >=
+        document.documentElement.scrollHeight - 50
+      ) {
+        moveIndicator('contact');
+      } else {
+        for (const t of triggers) {
+          if (t.isActive) {
+            const sec =
+              t.trigger === heroEl
+                ? 'hero'
+                : t.trigger === skillsEl
+                ? 'skills'
+                : t.trigger === projectsEl
+                ? 'projects'
+                : 'contact';
+            moveIndicator(sec);
+            break;
+          }
+        }
+      }
+    };
+
+    const timer = setTimeout(initScrollSpy, 300);
+
+    // Passive scroll listener for extreme top and bottom edges
+    const handleScrollEdges = () => {
+      if (isClickingRef.current) return;
+      if (window.scrollY < 60) {
+        if (activeSectionRef.current !== 'hero') {
+          moveIndicator('hero');
+        }
+      } else if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 30
+      ) {
+        if (activeSectionRef.current !== 'contact') {
+          moveIndicator('contact');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollEdges, { passive: true });
+
+    return () => {
+      clearTimeout(timer);
+      if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+      window.removeEventListener('scroll', handleScrollEdges);
+      triggers.forEach((t) => t.kill());
+    };
+  }, [location.pathname]);
 
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
+    isClickingRef.current = true;
+    if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+    clickTimeoutRef.current = setTimeout(() => {
+      isClickingRef.current = false;
+    }, 1000);
+
     moveIndicator(sectionId, true);
 
     if (location.pathname !== '/') {

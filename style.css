@@ -3,7 +3,7 @@
   --bg: #ffffff; /* Clean White Background */
   --fg: #0e0e0f; /* Dark Charcoal Text */
   --muted: #626264; /* Subdued Text */
-  --line: rgba(14, 14, 15, 0.12); /* Subtle Borders */
+  --line: rgba(14, 14, 15, 0.18); /* Clearly visible border line */
   --bh-red: #ff4a1c; /* Cosmic Accent */
   --glass-bg: rgba(255, 255, 255, 0.7);
   --tech-bg: rgba(255, 255, 255, 0.9);
@@ -16,7 +16,7 @@
   --bg: #0a0a0b;
   --fg: #f2f0eb;
   --muted: #888888;
-  --line: rgba(242, 240, 235, 0.15);
+  --line: rgba(242, 240, 235, 0.2);
   --bh-red: #ff4a1c;
   --glass-bg: rgba(20, 20, 22, 0.6);
   --tech-bg: rgba(20, 20, 22, 0.9);
@@ -108,9 +108,7 @@ body.theme-ready {
   z-index: 9999;
 }
 
-/* ==========================================
-     4. NAVIGATION
-     ========================================== */
+/* Navigation Bar */
 nav {
   position: fixed;
   top: 20px;
@@ -122,22 +120,27 @@ nav {
   gap: 20px;
   background: var(--nav-bg);
   backdrop-filter: blur(12px);
-  border: 1px dashed var(--line);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   padding: 10px 20px;
   border-radius: 50px;
-  transition:
-  border 1.3s,
-    opacity 0.6s,
-    background 0.4s;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
   max-width: 95vw;
 }
 
-[data-theme="dark"] nav:hover{
-  border: 1px dashed #d1530a83 ;
+nav:hover {
+  border-color: var(--bh-red);
+  box-shadow: 0 6px 25px rgba(255, 74, 28, 0.16);
 }
 
-nav:hover{
-  border: 1px dashed #c856047f ;
+[data-theme="dark"] nav {
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] nav:hover {
+  border-color: var(--bh-red);
+  box-shadow: 0 6px 28px rgba(255, 74, 28, 0.25);
 }
 nav.hidden {
   transform: translateX(-50%) translateY(-200%);
@@ -389,44 +392,64 @@ border-width: 1px 4px 1px 1px;
 
 /* ==========================================
      8. SKILLS SECTION
-     ========================================== */
+/* Stack (Skills) Section */
 #skills {
-  padding: 150px 0;
+  padding: 120px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  transition: border-color 0.3s ease;
 }
+
+#skills:hover {
+  border-top-color: rgba(255, 74, 28, 0.35);
+  border-bottom-color: rgba(255, 74, 28, 0.35);
+}
+
 .skills-header {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--line);
 }
+
 .skills-header h2 {
   font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 400;
 }
+
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0;
 }
+
 .skill-row {
-  border-bottom: 1px dashed var(--line);
-  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  padding: 24px 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(40px);
   gap: 15px;
-  transition: background-color 1s;
+  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
 }
 
-
-.meow{
-  color: #ab3503f1;
+.skill-row:hover {
+  background-color: rgba(255, 74, 28, 0.04);
+  border-bottom-color: var(--bh-red);
+  padding-left: 16px;
 }
 
+.meow {
+  color: var(--bh-red);
+}
 
 .skill-row h3 {
   font-size: clamp(1.5rem, 4vw, 3rem);
   font-weight: 400;
 }
+
 .skill-row p {
   font-family: "JetBrains Mono", monospace;
   color: var(--muted);
@@ -684,37 +707,52 @@ border-width: 1px 4px 1px 1px;
   transform: translateX(3px);
 }
 
-/* ==========================================
-     11. CONTACT FORM SECTION
-     ========================================== */
+/* Contact Form Section */
 #contact {
-  padding: 80px 0;
+  padding: 90px 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   position: relative;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.3s ease;
 }
+
+#contact:hover {
+  border-top-color: rgba(255, 74, 28, 0.35);
+  border-bottom-color: rgba(255, 74, 28, 0.35);
+}
+
 .form-wrapper {
   width: 100%;
   max-width: 1200px;
   background: var(--glass-bg);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--line);
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.06);
   position: relative;
   overflow: hidden;
   display: grid;
   grid-template-columns: 1fr;
-  transition:
-    background 0.7s,
-    border-color 0.7s;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
 }
 
-.form-wrapper:hover{
-   border: #ff491cb7 solid 1px;
-   
+.form-wrapper:hover {
+  border-color: var(--bh-red);
+  box-shadow: 0 18px 50px rgba(255, 74, 28, 0.14);
+}
+
+[data-theme="dark"] .form-wrapper {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .form-wrapper:hover {
+  border-color: var(--bh-red);
+  box-shadow: 0 20px 55px rgba(255, 74, 28, 0.22);
 }
 
 
