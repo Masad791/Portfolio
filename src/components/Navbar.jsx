@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTheme } from '../context/ThemeContext';
+import { profileData } from '../data/profileData';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -261,7 +262,9 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="side-detail side-left">EST. 2026 // LAT 29.3957° N</div>
+      <div className="side-detail side-left">
+        {profileData.established} // {profileData.coordinates}
+      </div>
       <div className="side-detail side-right" id="time-date">
         {timeStr || 'LOADING...'}
       </div>

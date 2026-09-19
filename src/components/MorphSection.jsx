@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { profileData } from '../data/profileData';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,8 +65,8 @@ export default function MorphSection() {
   return (
     <section id="morph-section" ref={containerRef}>
       <div className="morph-wrapper">
-        <img src="/ME.png" id="dev-image" alt="ASAD" />
-        <h2 id="dev-text">Mr. ASAD</h2>
+        <img src={profileData.morphImage} id="dev-image" alt={profileData.name} />
+        <h2 id="dev-text">{profileData.name}</h2>
       </div>
     </section>
   );

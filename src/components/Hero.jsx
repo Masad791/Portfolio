@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { profileData } from '../data/profileData';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,13 +77,13 @@ export default function Hero() {
         <p>// MVC Framework</p>
       </div>
       <h1>
-        Software <br />
-        <span className="italic">Engineer</span>
+        {profileData.rolePrefix} <br />
+        <span className="italic">{profileData.roleHighlight}</span>
       </h1>
       <div className="hero-meta">
-        <span>// V 4.0.1</span>
+        <span>// {profileData.version}</span>
         <span>SCROLL TO EXPLORE [↓]</span>
-        <span>STATUS: AVAILABLE</span>
+        <span>STATUS: {profileData.status}</span>
       </div>
     </section>
   );

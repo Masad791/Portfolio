@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
+import { profileData } from '../data/profileData';
 
 export default function ContactForm() {
   const formWrapperRef = useRef(null);
@@ -39,60 +40,68 @@ export default function ContactForm() {
 
       gsap.fromTo(
         emailCore,
-        { opacity: 0, scale: 0.5, x: 0, y: 0 },
         {
-          opacity: 1,
+          x: 0,
+          y: 0,
           scale: 1,
-          duration: 0.3,
-          ease: 'power2.out',
+          opacity: 1,
+          rotation: 0
+        },
+        {
+          x: 400,
+          y: -300,
+          scale: 0.2,
+          opacity: 0,
+          rotation: 45,
+          duration: 0.8,
+          ease: 'power2.in',
           onComplete: () => {
-            gsap.to(emailCore, {
-              x: window.innerWidth * 0.5,
-              y: -window.innerHeight * 0.5,
-              scale: 0.2,
-              duration: 1.2,
-              ease: 'power3.in',
-              onComplete: () => {
-                gsap.to(formWrapper, {
-                  scale: 1,
-                  opacity: 1,
-                  filter: 'blur(0px)',
-                  duration: 0.5,
-                  delay: 0.2
-                });
-                gsap.set(emailCore, { opacity: 0, scale: 0.5, x: 0, y: 0 });
-              }
+            gsap.to(formWrapper, {
+              scale: 1,
+              opacity: 1,
+              filter: 'blur(0px)',
+              duration: 0.6,
+              ease: 'power3.out'
             });
+            gsap.set(emailCore, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 0 });
           }
         }
       );
     }
 
     try {
-      // Encode form data for Netlify Forms AJAX POST
-      const encode = (data) => {
-        return Object.keys(data)
-          .map(
-            (key) =>
-              encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
-          )
-          .join('&');
-      };
-
-      await fetch('/', {
+      // 1. Submit via FormSubmit (100% free direct email delivery with zero backend)
+      await fetch(`https://formsubmit.co/ajax/${profileData.email}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          'form-name': 'contact',
-          ...formData
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `New Portfolio Inquiry from ${formData.name}`,
+          _template: 'table'
         })
       });
+
+      // 2. Also forward to Netlify Forms if deployed on Netlify
+      const encode = (data) => {
+        return Object.keys(data)
+          .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+          .join('&');
+      };
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({ 'form-name': 'contact', ...formData })
+      }).catch(() => {});
 
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '', 'bot-field': '' });
     } catch (err) {
-      console.error('Netlify form submission error:', err);
-      // Even in local dev where Netlify endpoint returns 404/ignored, inform user
+      console.error('Form submission error:', err);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '', 'bot-field': '' });
     } finally {
@@ -132,15 +141,12 @@ export default function ContactForm() {
           </svg>
 
           <div className="form-left">
-            <h2>Let's build.</h2>
-            <p>
-              Have a project in mind? Drop the details below. Let's create something
-              massive.
-            </p>
+            <h2>{profileData.contactPitch.heading}</h2>
+            <p>{profileData.contactPitch.subheading}</p>
             <ul className="ul">
-              <li>Average response time: 2h</li>
-              <li>Available for freelance</li>
-              <li>Open to full-time roles</li>
+              {profileData.contactPitch.highlights.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
             </ul>
 
             {/* Responsive Social Icons for Small / Medium Devices */}
@@ -148,7 +154,7 @@ export default function ContactForm() {
               <span className="form-socials-title">// SOCIALS & REACH</span>
               <div className="form-socials-list">
                 <a
-                  href="mailto:muhammadasaddev31@gmail.com"
+                  href={profileData.socials.email}
                   className="form-social-btn"
                   aria-label="Email"
                   target="_blank"
@@ -160,7 +166,7 @@ export default function ContactForm() {
                   <span>Email</span>
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/asaddevco/"
+                  href={profileData.socials.linkedin}
                   className="form-social-btn"
                   aria-label="LinkedIn"
                   target="_blank"
@@ -172,7 +178,7 @@ export default function ContactForm() {
                   <span>LinkedIn</span>
                 </a>
                 <a
-                  href="https://github.com/Masad791"
+                  href={profileData.socials.github}
                   className="form-social-btn"
                   aria-label="GitHub"
                   target="_blank"

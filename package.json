@@ -1,7 +1,23 @@
 {
-  "name": "asad-portfolio",
-  "private": true,
+  "name": "creative-developer-portfolio",
   "version": "1.0.0",
+  "description": "A high-performance, open-source creative developer portfolio built with React, Vite, GSAP, and Canvas particle physics.",
+  "author": "Muhammad Asad <muhammadasaddev31@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Masad791/Portfolio.git"
+  },
+  "keywords": [
+    "react",
+    "vite",
+    "gsap",
+    "scrolltrigger",
+    "portfolio",
+    "creative-developer",
+    "dark-mode",
+    "particles"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",

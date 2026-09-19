@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { profileData } from '../data/profileData';
 
 export default function Footer() {
   const { isDark } = useTheme();
@@ -213,10 +214,10 @@ export default function Footer() {
           {/* Column 1: Headline */}
           <div className="footer-col-left">
             <h2>
-              Scaling Start-ups <br />
-              <span className="by">for Growth.</span>
+              {profileData.footerHeadline.line1} <br />
+              <span className="by">{profileData.footerHeadline.highlight}</span>
             </h2>
-            <p className="footer-subtag">// Engineered with Precision & Speed</p>
+            <p className="footer-subtag">{profileData.footerHeadline.subtag}</p>
           </div>
 
           {/* Column 2: Navigation shortcuts */}
@@ -258,10 +259,10 @@ export default function Footer() {
           <div className="footer-col-right">
             <span className="footer-col-label">/Contact</span>
             <a
-              href="mailto:muhammadasaddev31@gmail.com"
+              href={profileData.socials.email}
               className="footer-email-link"
             >
-              muhammadasaddev31@gmail.com
+              {profileData.email}
             </a>
             <div className="footer-actions">
               <button
@@ -280,8 +281,8 @@ export default function Footer() {
         <div className="footer-meta-bar" />
       </div>
 
-      {/* Giant MAD Watermark (75% visible, 25% negative bottom) */}
-      <div className="footer-watermark">MAD</div>
+      {/* Stylized Brand Watermark (75% visible, 25% negative bottom) */}
+      <div className="footer-watermark">{profileData.watermark}</div>
     </footer>
   );
 }
