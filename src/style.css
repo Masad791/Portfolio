@@ -1426,7 +1426,7 @@ border-width: 1px 4px 1px 1px;
   line-height: 0.8;
   letter-spacing: -0.03em;
   color: var(--fg);
-  opacity: 0.085;
+  opacity: 0.115;
   pointer-events: none;
   user-select: none;
   white-space: nowrap;

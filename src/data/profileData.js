@@ -15,7 +15,7 @@ export const profileData = {
     github: "https://github.com/Masad791",
     linkedin: "https://www.linkedin.com/in/asaddevco/",
     email: "mailto:muhammadasaddev31@gmail.com",
-    whatsapp: "https://wa.me/?text=Hi%20Muhammad%20Asad%2C%20I%20came%20across%20your%20portfolio%20and%20would%20like%20to%20connect."
+    whatsapp: "https://wa.me/+923047767415?text=Hi%20Muhammad%20Asad%2C%20I%20came%20across%20your%20portfolio%20and%20would%20like%20to%20connect."
   },
 
   morphImage: "/ME.png",
