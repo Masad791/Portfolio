@@ -18,7 +18,6 @@ export default function ProjectsHorizontal() {
   const [activeIndex, setActiveIndex] = useState(0);
   const { isDark } = useTheme();
 
-  // Drag & touch swipe state
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
   const touchStartTime = useRef(0);
@@ -47,14 +46,16 @@ export default function ProjectsHorizontal() {
     const trigger = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: () =>
-        `+=${Math.max(
-          window.innerHeight * 1.6,
-          track.scrollWidth - window.innerWidth + 300
-        )}`,
+      end: () => `+=${window.innerHeight * 3.6}`,
       pin: true,
       animation: horizontalTween,
-      scrub: 0.8,
+      scrub: 1.2,
+      snap: {
+        snapTo: 1 / (projects.length - 1),
+        duration: { min: 0.25, max: 0.55 },
+        delay: 0.1,
+        ease: 'power2.inOut'
+      },
       invalidateOnRefresh: true,
       anticipatePin: 1,
       fastScrollEnd: true,
@@ -71,7 +72,6 @@ export default function ProjectsHorizontal() {
 
     triggerRef.current = trigger;
 
-    // Refresh ScrollTrigger after any late asset layout shifts
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 300);
@@ -84,7 +84,6 @@ export default function ProjectsHorizontal() {
     };
   }, { scope: sectionRef, dependencies: [projects.length] });
 
-  // Seamless manual navigation jumping to a specific project card
   const goToProject = (index) => {
     const targetIndex = Math.max(0, Math.min(projects.length - 1, index));
     setActiveIndex(targetIndex);
@@ -108,7 +107,6 @@ export default function ProjectsHorizontal() {
     }
   };
 
-  // Keyboard navigation when section is in viewport
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
@@ -135,7 +133,6 @@ export default function ProjectsHorizontal() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeIndex]);
 
-  // Touch and pointer swipe handlers
   const handlePointerDown = (e) => {
     if (e.button && e.button !== 0) return;
     touchStartX.current = e.clientX;
@@ -187,7 +184,6 @@ export default function ProjectsHorizontal() {
   return (
     <section id="projects" className="projects-horizontal-section" ref={sectionRef}>
       <div className="projects-horizontal-container">
-        {/* Header with counter and manual controls */}
         <div className="projects-header-wrapper">
           <div className="container">
             <div className="projects-header">
@@ -243,7 +239,6 @@ export default function ProjectsHorizontal() {
                   </div>
                 </div>
 
-                {/* Interactive Project Jump Pills */}
                 <div className="projects-pagination-pills" role="tablist" aria-label="Projects list">
                   {projects.map((p, idx) => (
                     <button
@@ -265,7 +260,6 @@ export default function ProjectsHorizontal() {
           </div>
         </div>
 
-        {/* Horizontal Track with swipe and drag support */}
         <div
           className={`projects-track-wrapper ${isDraggingState ? 'is-dragging' : ''}`}
           onPointerDown={handlePointerDown}

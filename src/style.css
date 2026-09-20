@@ -912,6 +912,7 @@ border-width: 1px 4px 1px 1px;
   display: block;
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
+  font-weight: 700;
   color: var(--muted);
   margin-bottom: 14px;
   letter-spacing: 1px;
@@ -931,16 +932,17 @@ border-width: 1px 4px 1px 1px;
   border-radius: 20px;
   color: var(--fg);
   text-decoration: none;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
 }
 .form-social-btn svg {
   width: 15px;
   height: 15px;
   fill: currentColor;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 .form-social-btn:hover {
   background: var(--bh-red);
@@ -948,6 +950,24 @@ border-width: 1px 4px 1px 1px;
   border-color: var(--bh-red);
   transform: translateY(-2px);
   box-shadow: 0 4px 14px rgba(255, 74, 28, 0.35);
+}
+.form-social-btn.whatsapp:hover {
+  background: #25d366;
+  border-color: #25d366;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+}
+.form-social-btn.linkedin:hover {
+  background: #0077b5;
+  border-color: #0077b5;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 119, 181, 0.4);
+}
+.form-social-btn.github:hover {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 .form-social-btn:hover svg {
   transform: scale(1.15);
@@ -1152,65 +1172,200 @@ border-width: 1px 4px 1px 1px;
   transition: color 0.4s ease;
 }
 
+/* Availability Badge */
+.footer-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 6px 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--fg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.footer-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-status 2s infinite ease-in-out;
+}
+
+@keyframes pulse-status {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.65;
+  }
+}
+
 .footer-col-label {
   display: block;
   font-family: "JetBrains Mono", monospace;
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg);
+  opacity: 0.9;
   margin-bottom: 18px;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   transition: color 0.4s ease;
 }
 
-.footer-quick-pills {
+/* Footer Navigation Column */
+.footer-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: fit-content;
+}
+
+.footer-nav-item .item-num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--bh-red);
+  font-weight: 700;
+}
+
+.footer-nav-item:hover {
+  color: var(--bh-red);
+  transform: translateX(5px);
+}
+
+/* Bold Email Card */
+.footer-email-bold {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  background: var(--glass-bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.footer-email-bold svg {
+  color: var(--bh-red);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.footer-email-bold:hover {
+  border-color: var(--bh-red);
+  color: var(--bh-red);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 74, 28, 0.25);
+}
+
+.footer-email-bold:hover svg {
+  transform: scale(1.15);
+}
+
+/* Social & Direct Channels (WhatsApp, LinkedIn, GitHub) */
+.footer-social-channels {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  max-width: 300px;
+  margin-bottom: 22px;
 }
 
-.quick-pill {
-  display: inline-block;
-  padding: 8px 18px;
+.footer-channel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
   background: var(--glass-bg);
-  color: var(--fg);
   border: 1px solid var(--line);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
   font-family: "Space Grotesk", sans-serif;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
+  color: var(--fg);
   text-decoration: none;
-  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
 }
 
-.quick-pill:hover {
-  background: var(--bh-red);
-  color: #ffffff;
-  border-color: var(--bh-red);
+.footer-channel-btn svg {
+  flex-shrink: 0;
+}
+
+.footer-channel-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(255, 74, 28, 0.35);
 }
 
-.footer-email-link {
-  display: inline-block;
-  color: var(--fg);
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 14px;
-  text-decoration: none;
-  margin-bottom: 20px;
-  transition: color 0.3s ease;
+.footer-channel-btn.whatsapp:hover {
+  background: #25d366;
+  border-color: #25d366;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
 }
 
-.footer-email-link:hover {
-  color: var(--bh-red);
+.footer-channel-btn.linkedin:hover {
+  background: #0077b5;
+  border-color: #0077b5;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 119, 181, 0.4);
+}
+
+.footer-channel-btn.github:hover {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .footer-channel-btn.github:hover {
+  background: #f2f0eb;
+  color: #0a0a0b;
+  border-color: #f2f0eb;
+  box-shadow: 0 4px 16px rgba(242, 240, 235, 0.25);
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
 }
 
 .back-to-top-btn {
-  display: inline-block;
-  padding: 7px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
   background: var(--glass-bg);
   border: 1px solid var(--line);
   backdrop-filter: blur(10px);
@@ -1218,10 +1373,15 @@ border-width: 1px 4px 1px 1px;
   border-radius: 20px;
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
-  color: var(--muted);
+  font-weight: 700;
+  color: var(--fg);
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
+}
+
+.back-to-top-btn svg {
+  transition: transform 0.25s ease;
 }
 
 .back-to-top-btn:hover {
@@ -1229,6 +1389,11 @@ border-width: 1px 4px 1px 1px;
   border-color: var(--bh-red);
   background: rgba(255, 74, 28, 0.12);
   box-shadow: 0 0 15px rgba(255, 74, 28, 0.25);
+  transform: translateY(-2px);
+}
+
+.back-to-top-btn:hover svg {
+  transform: translateY(-2px);
 }
 
 .footer-meta-bar {
@@ -1236,9 +1401,13 @@ border-width: 1px 4px 1px 1px;
   justify-content: space-between;
   align-items: center;
   padding: 24px 0 35px;
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
-  color: var(--muted);
+  font-weight: 700;
+  color: var(--fg);
+  opacity: 0.85;
   position: relative;
   z-index: 3;
   flex-wrap: wrap;
