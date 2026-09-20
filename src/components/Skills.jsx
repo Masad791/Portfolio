@@ -2,11 +2,14 @@ import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { LiquidMetalText } from 'motion-organic/react';
+import { useTheme, LIQUID_METAL_PALETTE } from '../context/ThemeContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Skills() {
   const containerRef = useRef(null);
+  const { isDark } = useTheme();
 
   useGSAP(() => {
     const rows = containerRef.current.querySelectorAll('.skill-row');
@@ -29,7 +32,15 @@ export default function Skills() {
     <section id="skills" ref={containerRef}>
       <div className="container">
         <div className="skills-header">
-          <h2>System Architecture</h2>
+          <h2>
+            <LiquidMetalText
+              key={isDark ? 'dark' : 'light'}
+              colors={isDark ? LIQUID_METAL_PALETTE.dark : LIQUID_METAL_PALETTE.light}
+              speed={6}
+            >
+              System Architecture
+            </LiquidMetalText>
+          </h2>
           <p style={{ fontFamily: "'JetBrains Mono', monospace", color: '#ab3503f1' }}>
             // The stack that powers the singularity
           </p>

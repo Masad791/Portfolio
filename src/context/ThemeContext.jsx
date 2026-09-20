@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+export const LIQUID_METAL_PALETTE = {
+  dark: ['#e4e4e7', '#a1a1aa', '#ea580c', '#cbd5e1', '#71717a'],
+  light: ['#18181b', '#52525b', '#c2410c', '#27272a', '#3f3f46'],
+};
+
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {

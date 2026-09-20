@@ -1649,3 +1649,347 @@ border-width: 1px 4px 1px 1px;
 .page-footer-content a:hover {
   color: var(--bh-red);
 }
+
+/* ==========================================================================
+   MOTION-ORGANIC SUITE (Inspired by motion-organic.kharsan.com)
+   ========================================================================== */
+
+/* 1. Portal Overlay and Liquid Aperture */
+.mo-portal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.mo-portal-overlay.active {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.mo-portal-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: drop-shadow(0 0 35px rgba(255, 74, 28, 0.3));
+}
+
+.mo-portal-content-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mo-portal-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mo-portal-spinner.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mo-spinner-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bh-red);
+  box-shadow: 0 0 20px var(--bh-red), 0 0 45px rgba(255, 120, 50, 0.7);
+  animation: moPulse 0.9s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.mo-spinner-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: var(--fg);
+  text-transform: uppercase;
+  font-weight: 600;
+  background: var(--glass-bg);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes moPulse {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(1.3); opacity: 1; }
+}
+
+/* 2. Typography Suite: Molten Liquid Sheen */
+.mo-liquid-sheen {
+  background-image: linear-gradient(
+    115deg,
+    var(--fg) 0%,
+    var(--fg) 32%,
+    var(--bh-red) 45%,
+    #ff8c5a 50%,
+    var(--bh-red) 55%,
+    var(--fg) 68%,
+    var(--fg) 100%
+  );
+  background-size: 260% 100%;
+  background-position: var(--sheen-x, 20%) var(--sheen-y, 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  transition: background-position 0.12s ease-out;
+  animation: moSheenWave 12s ease-in-out infinite;
+}
+
+[data-theme="dark"] .mo-liquid-sheen {
+  background-image: linear-gradient(
+    115deg,
+    #f2f0eb 0%,
+    #f2f0eb 30%,
+    #ff622e 45%,
+    #ffd2b8 50%,
+    #ff4a1c 55%,
+    #f2f0eb 70%,
+    #f2f0eb 100%
+  );
+}
+
+@keyframes moSheenWave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 3. Typography Suite: Chromatic Glitch Dispersion */
+.mo-glitch-text {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+}
+
+.mo-glitch-text::before,
+.mo-glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.mo-glitch-text.glitching::before,
+.mo-glitch-text:hover::before {
+  opacity: 0.9;
+  color: #ff3700;
+  transform: translate(-3px, -1px);
+  clip-path: polygon(0 15%, 100% 15%, 100% 40%, 0 40%);
+  animation: moGlitch1 0.4s steps(2, start) infinite;
+  text-shadow: -1px 0 #ff3700;
+}
+
+.mo-glitch-text.glitching::after,
+.mo-glitch-text:hover::after {
+  opacity: 0.9;
+  color: #00d4ff;
+  transform: translate(3px, 1px);
+  clip-path: polygon(0 58%, 100% 58%, 100% 82%, 0 82%);
+  animation: moGlitch2 0.4s steps(2, start) infinite;
+  text-shadow: 1px 0 #00d4ff;
+}
+
+@keyframes moGlitch1 {
+  0% { clip-path: polygon(0 20%, 100% 20%, 100% 35%, 0 35%); transform: translate(-2px, -1px); }
+  50% { clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); transform: translate(3px, 1px); }
+  100% { clip-path: polygon(0 10%, 100% 10%, 100% 25%, 0 25%); transform: translate(-1px, 2px); }
+}
+
+@keyframes moGlitch2 {
+  0% { clip-path: polygon(0 65%, 100% 65%, 100% 85%, 0 85%); transform: translate(2px, 1px); }
+  50% { clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); transform: translate(-3px, -1px); }
+  100% { clip-path: polygon(0 40%, 100% 40%, 100% 55%, 0 55%); transform: translate(1px, -2px); }
+}
+
+/* 4. Typography Suite: Aurora Chromatic Shimmer */
+.mo-aurora-text {
+  background-image: linear-gradient(
+    135deg,
+    var(--fg) 20%,
+    var(--bh-red) 45%,
+    #c2410c 68%,
+    var(--muted) 85%,
+    var(--fg) 100%
+  );
+  background-size: 240% 240%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  animation: moAuroraFlow 10s ease-in-out infinite alternate;
+}
+
+@keyframes moAuroraFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 5. Typography Suite: Kinetic Character Stagger */
+.mo-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.mo-char {
+  display: inline-block;
+  will-change: transform, opacity;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.mo-char:hover {
+  transform: translateY(-4px) scale(1.1);
+  color: var(--bh-red);
+}
+
+/* 6. Card & Portal Micro-Interactions */
+.card-project-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+  margin-top: 4px;
+  line-height: 1.25;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.project-card:hover .card-project-title {
+  color: var(--bh-red);
+}
+
+.project-card {
+  will-change: transform;
+}
+
+.project-link-btn {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+}
+
+.project-link-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  padding-bottom: 140%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 0.4s ease-out;
+  pointer-events: none;
+}
+
+.project-link-btn:active::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: 0s;
+}
+
+/* 7. Advanced Motion-Organic Typography Suite */
+.mo-avant-garde {
+  display: inline-flex;
+  align-items: baseline;
+  user-select: text;
+}
+
+.mo-variable-physics {
+  display: inline-block;
+  user-select: text;
+  will-change: font-variation-settings, transform;
+}
+
+.mo-liquid-metal {
+  display: inline-block;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 100%;
+}
+
+/* 8. Multi-Transition SVG Overlay Performance */
+.mo-portal-overlay-svg {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: opacity;
+}
+
+/* 9. Minimal Liquid Refraction Lens Hover Bubble */
+.mo-liquid-refraction-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.mo-refraction-text-content {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.3s ease;
+}
+
+.mo-liquid-refraction-container:hover .mo-refraction-text-content {
+  transform: scale(1.04);
+  text-shadow: 0 0 20px rgba(255, 74, 28, 0.3);
+}
+
+.mo-liquid-lens-bubble {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.3);
+  transition: opacity 0.25s ease, transform 0.08s ease-out;
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(255, 255, 255, 0.38) 0%,
+    rgba(255, 74, 28, 0.12) 45%,
+    transparent 72%
+  );
+  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.45), 0 8px 24px rgba(255, 74, 28, 0.3);
+  backdrop-filter: blur(0.6px) brightness(1.15);
+  -webkit-backdrop-filter: blur(0.6px) brightness(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  mix-blend-mode: screen;
+}
+
+.mo-liquid-lens-bubble.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+

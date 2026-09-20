@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { projects } from '../data/projectsData';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme, LIQUID_METAL_PALETTE } from '../context/ThemeContext';
+import { MoPortalLink } from '../context/PortalTransitionContext';
+import { LiquidMetalText } from 'motion-organic/react';
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
@@ -33,12 +35,12 @@ export default function ProjectDetailPage() {
     <>
       {/* Project Detail Navigation Header */}
       <header className="project-detail-nav">
-        <Link to="/#projects" className="back-btn">
+        <MoPortalLink to="/#projects" className="back-btn">
           <svg viewBox="0 0 24 24">
             <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
           </svg>
           <span>Back to Works</span>
-        </Link>
+        </MoPortalLink>
         <span className="project-nav-center">
           // PROJECT {project.num} OF {String(projects.length).padStart(2, '0')}
         </span>
@@ -90,8 +92,16 @@ export default function ProjectDetailPage() {
       <main className="container">
         {/* 1. Project Hero */}
         <section className="project-hero">
-          <span className="project-hero-badge">{project.badge}</span>
-          <h1>{project.title}</h1>
+          <span className="project-hero-badge mo-glitch-text" data-text={project.badge}>{project.badge}</span>
+          <h1>
+            <LiquidMetalText
+              key={`title-${isDark ? 'dark' : 'light'}-${project.id}`}
+              colors={isDark ? LIQUID_METAL_PALETTE.dark : LIQUID_METAL_PALETTE.light}
+              speed={6}
+            >
+              {project.title}
+            </LiquidMetalText>
+          </h1>
           <p className="project-hero-summary">{project.summary}</p>
 
           {/* Meta Information Cards */}
@@ -152,7 +162,15 @@ export default function ProjectDetailPage() {
             <div className="case-grid">
               <div className="case-left">
                 <h3>{project.architecture.tag}</h3>
-                <h2>{project.architecture.title}</h2>
+                <h2>
+                  <LiquidMetalText
+                    key={`arch-${isDark ? 'dark' : 'light'}-${project.id}`}
+                    colors={isDark ? LIQUID_METAL_PALETTE.dark : LIQUID_METAL_PALETTE.light}
+                    speed={6}
+                  >
+                    {project.architecture.title}
+                  </LiquidMetalText>
+                </h2>
               </div>
               <div className="case-right">
                 {project.architecture.paragraphs.map((p, i) => (
@@ -207,12 +225,17 @@ export default function ProjectDetailPage() {
       {nextProject && (
         <div className="next-project-bar">
           <div className="container">
-            <Link to={`/project/${nextProject.id}`} className="next-project-link">
-              <span className="sublabel">// NEXT CASE STUDY</span>
+            <MoPortalLink
+              to={`/project/${nextProject.id}`}
+              transition={nextProject.transition || 'organic-blob'}
+              word={nextProject.transitionWord || nextProject.title}
+              className="next-project-link"
+            >
+              <span className="sublabel mo-aurora-text">// NEXT CASE STUDY</span>
               <h2>
                 {nextProject.title} <span>→</span>
               </h2>
-            </Link>
+            </MoPortalLink>
           </div>
         </div>
       )}

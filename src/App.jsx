@@ -5,6 +5,7 @@ import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ProjectDetailPage from './pages/ProjectDetailPage';
+import { PortalTransitionProvider } from './context/PortalTransitionContext';
 
 function ScrollHandler() {
   const { pathname, hash } = useLocation();
@@ -51,7 +52,9 @@ function MainLayout() {
 export default function App() {
   return (
     <BrowserRouter>
-      <MainLayout />
+      <PortalTransitionProvider>
+        <MainLayout />
+      </PortalTransitionProvider>
     </BrowserRouter>
   );
 }

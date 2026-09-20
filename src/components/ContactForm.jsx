@@ -141,7 +141,7 @@ export default function ContactForm() {
           </svg>
 
           <div className="form-left">
-            <h2>{profileData.contactPitch.heading}</h2>
+            <h2 className="mo-aurora-text">{profileData.contactPitch.heading}</h2>
             <p>{profileData.contactPitch.subheading}</p>
             <ul className="ul">
               {profileData.contactPitch.highlights.map((item, idx) => (

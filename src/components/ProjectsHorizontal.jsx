@@ -4,6 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { projects } from '../data/projectsData';
 import ProjectCard from './ProjectCard';
+import { VariablePhysicsText, LiquidMetalText } from 'motion-organic/react';
+import { useTheme, LIQUID_METAL_PALETTE } from '../context/ThemeContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +13,7 @@ export default function ProjectsHorizontal() {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const [activeNum, setActiveNum] = useState('01');
+  const { isDark } = useTheme();
 
   useGSAP(() => {
     const track = trackRef.current;
@@ -74,8 +77,20 @@ export default function ProjectsHorizontal() {
           <div className="container">
             <div className="projects-header">
               <div>
-                <span className="section-badge">// SELECTED WORK</span>
-                <h2>Architected Projects</h2>
+                <span className="section-badge">
+                  <VariablePhysicsText color="var(--bh-red)" minWeight={400} maxWeight={900}>
+                    // SELECTED WORK
+                  </VariablePhysicsText>
+                </span>
+                <h2>
+                  <LiquidMetalText
+                    key={`arch-proj-${isDark ? 'dark' : 'light'}`}
+                    colors={isDark ? LIQUID_METAL_PALETTE.dark : LIQUID_METAL_PALETTE.light}
+                    speed={6}
+                  >
+                    Architected Projects
+                  </LiquidMetalText>
+                </h2>
               </div>
               <div className="projects-scroll-indicator">
                 <span className="hint-text">SCROLL TO EXPLORE [→]</span>

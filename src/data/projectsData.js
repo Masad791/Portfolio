@@ -10,6 +10,8 @@ export const projects = [
     timeline: "2025 — 2026",
     stack: ["React", "Node", "GraphQL", "AWS"],
     status: "Production Active",
+    transition: "organic-blob",
+    transitionWord: "NEBULA",
     image: "/Rohi-lms-project.png",
     challenge: {
       tag: "01 // CONTEXT",
@@ -71,6 +73,8 @@ export const projects = [
     timeline: "2025 — 2026",
     stack: ["Three.js", "WebGL", "WebSockets", "Go"],
     status: "Active Live Stream",
+    transition: "organic-blob",
+    transitionWord: "ORBITAL",
     image: "/Amg-trading.png",
     challenge: {
       tag: "01 // CONTEXT",
@@ -132,6 +136,8 @@ export const projects = [
     timeline: "2025",
     stack: ["Vue.js", "GraphQL", "Redis", "PHP"],
     status: "Live Across 14 Publications",
+    transition: "organic-blob",
+    transitionWord: "QUANTUM",
     image: "/AMG trading.png",
     challenge: {
       tag: "01 // CONTEXT",
@@ -193,6 +199,8 @@ export const projects = [
     timeline: "2025 — 2026",
     stack: ["Python", "TensorFlow", "D3.js", "ClickHouse"],
     status: "Active Cluster Deployment",
+    transition: "organic-blob",
+    transitionWord: "SYNAPSE",
     image: "/Rohi-lms-project.png",
     challenge: {
       tag: "01 // CONTEXT",
@@ -254,6 +262,8 @@ export const projects = [
     timeline: "2025 — 2026",
     stack: ["Rust", "Solidity", "Docker", "WASM"],
     status: "Mainnet Active ($40M+ Vol)",
+    transition: "organic-blob",
+    transitionWord: "AETHER",
     image: "/Amg-trading.png",
     challenge: {
       tag: "01 // CONTEXT",
