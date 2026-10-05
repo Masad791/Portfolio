@@ -490,7 +490,7 @@ border-width: 1px 4px 1px 1px;
 /* ==========================================
      10. PROJECTS SECTION (Horizontal Pin Scroll)
      ========================================== */
-#projects.projects-horizontal-section {
+.projects-horizontal-section {
   padding: 0;
   height: 100vh;
   min-height: 600px;
@@ -2312,3 +2312,372 @@ border-width: 1px 4px 1px 1px;
   transform: translate(-50%, -50%) scale(1);
 }
 
+
+/* ==========================================
+     MANIFESTO (pinned word-by-word reveal)
+     ========================================== */
+.manifesto-section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+}
+.manifesto-text {
+  font-size: clamp(1.8rem, 4.4vw, 4.2rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  max-width: 1200px;
+}
+.mf-word {
+  opacity: 0.12;
+}
+.mf-accent {
+  color: var(--bh-red);
+  font-style: italic;
+}
+
+/* ==========================================
+     ORBIT (draggable 3D ring of projects + stack)
+     ========================================== */
+.orbit-section {
+  padding: 120px 0 80px;
+  overflow: hidden;
+}
+.orbit-header h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+}
+.orbit-header p {
+  margin-top: 14px;
+  max-width: 62ch;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.orbit-stage {
+  position: relative;
+  height: min(78vh, 760px);
+  min-height: 460px;
+  perspective: 1900px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  outline: none;
+}
+.orbit-stage:active {
+  cursor: grabbing;
+}
+.orbit-stage:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--bh-red);
+  border-radius: 24px;
+}
+.orbit-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px dashed var(--line);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.orbit-ring-outer {
+  width: min(80vw, 1120px);
+  height: min(80vw, 1120px);
+}
+.orbit-ring-inner {
+  width: min(40vw, 560px);
+  height: min(40vw, 560px);
+  border-style: solid;
+  opacity: 0.6;
+}
+.orbit-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(70px, 9vw, 120px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffb08a 0%, var(--bh-red) 38%, #7a1d06 72%, #1a0802 100%);
+  box-shadow: 0 0 60px rgba(255, 74, 28, 0.45), 0 0 140px rgba(255, 74, 28, 0.2);
+  z-index: 500;
+  pointer-events: none;
+}
+.orbit-card,
+.orbit-chip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  will-change: transform, opacity;
+}
+.orbit-card {
+  width: clamp(150px, 16vw, 250px);
+}
+.orbit-card-link {
+  display: block;
+  color: var(--fg);
+  text-decoration: none;
+  -webkit-user-drag: none;
+}
+.orbit-card-media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--input-bg);
+  box-shadow: 0 24px 60px rgba(14, 14, 15, 0.18);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.orbit-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.orbit-card-link:hover .orbit-card-media {
+  border-color: var(--bh-red);
+  box-shadow: 0 24px 60px rgba(255, 74, 28, 0.28);
+}
+.orbit-card-title {
+  display: block;
+  margin-top: 10px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.orbit-chip {
+  width: 74px;
+  padding: 10px 6px 8px;
+  border-radius: 16px;
+  background: #f6f5f2;
+  border: 1px solid rgba(14, 14, 15, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+.orbit-chip img {
+  width: 34px;
+  height: 34px;
+}
+.orbit-chip span {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  color: #3f3f46;
+}
+.orbit-front {
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--bh-red);
+  min-height: 1.5em;
+}
+[data-theme="dark"] .orbit-card-media {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================
+     FEATURED WORK (sticky card stack)
+     ========================================== */
+.featured-section {
+  padding-top: 100px;
+}
+.featured-header {
+  margin-bottom: 40px;
+}
+.featured-header h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+}
+.feature-card {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+.feature-inner {
+  width: 100%;
+  max-width: 1400px;
+  height: min(82vh, 760px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr);
+  gap: 48px;
+  align-items: center;
+  padding: 48px;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  box-shadow: 0 -20px 60px rgba(14, 14, 15, 0.06);
+  transform-origin: center top;
+  position: relative;
+  overflow: hidden;
+}
+.feature-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(700px 400px at 85% 15%, color-mix(in srgb, var(--card-accent) 16%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.feature-copy {
+  position: relative;
+}
+.feature-num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--bh-red);
+}
+.feature-copy h3 {
+  font-size: clamp(2rem, 3.6vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 10px 0 8px;
+}
+.feature-badge {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.feature-desc {
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 48ch;
+  margin-bottom: 26px;
+}
+.feature-facts {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.feature-facts strong {
+  display: block;
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  font-weight: 500;
+}
+.feature-facts span {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.feature-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.feature-ghost-btn,
+.project-source-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 14px;
+  transition: border-color 0.3s, color 0.3s;
+}
+.feature-ghost-btn:hover {
+  border-color: var(--bh-red);
+  color: var(--bh-red);
+}
+.project-source-btn {
+  margin: 0 0 30px;
+  background: transparent;
+}
+.feature-media {
+  position: relative;
+  height: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #111;
+}
+.feature-media img {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .feature-card {
+    padding: 0 16px;
+  }
+  .feature-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 20px;
+    padding: 22px;
+    height: 88vh;
+  }
+  .feature-desc {
+    margin-bottom: 14px;
+  }
+  .feature-facts {
+    display: none;
+  }
+  .orbit-section {
+    padding: 80px 0 40px;
+  }
+  .orbit-stage {
+    min-height: 360px;
+    height: 52vh;
+  }
+  .orbit-chip {
+    width: 56px;
+    padding: 7px 4px 6px;
+  }
+  .orbit-chip img {
+    width: 24px;
+    height: 24px;
+  }
+  .orbit-chip span {
+    display: none;
+  }
+  .orbit-card {
+    width: 118px;
+  }
+  .orbit-ring-outer {
+    width: 88vw;
+    height: 88vw;
+  }
+  .orbit-ring-inner {
+    width: 44vw;
+    height: 44vw;
+  }
+  .orbit-card-title {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mf-word {
+    opacity: 1;
+  }
+}
+.feature-shade {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}

@@ -2,8 +2,11 @@ import React, { useEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Hero from '../components/Hero';
 import MorphSection from '../components/MorphSection';
+import Manifesto from '../components/Manifesto';
 import Skills from '../components/Skills';
+import OrbitShowcase from '../components/OrbitShowcase';
 import Capabilities from '../components/Capabilities';
+import FeaturedWork from '../components/FeaturedWork';
 import ProjectsHorizontal from '../components/ProjectsHorizontal';
 import Marquee from '../components/Marquee';
 import ContactForm from '../components/ContactForm';
@@ -23,8 +26,11 @@ export default function Home() {
     <main>
       <Hero />
       <MorphSection />
+      <Manifesto />
       <Skills />
+      <OrbitShowcase />
       <Capabilities />
+      <FeaturedWork />
       <ProjectsHorizontal />
       <Marquee />
       <ContactForm />

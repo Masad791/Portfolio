@@ -124,6 +124,15 @@ export default function ProjectDetailPage() {
             </div>
           </div>
 
+          {project.github && (
+            <a className="project-link-btn project-source-btn" href={project.github} target="_blank" rel="noopener noreferrer">
+              <span>Source on GitHub</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          )}
+
           {/* Main Visual Showcase */}
           <div className="project-visual-showcase">
             <div className="main-feature-img-wrapper">
@@ -198,7 +207,7 @@ export default function ProjectDetailPage() {
             <div className="gallery-grid">
               {project.gallery.map((item, i) => (
                 <div className="gallery-item" key={i}>
-                  <img src={item.src} alt={`Showcase visual ${i + 1}`} loading="lazy" />
+                  <img src={item.src} alt={`Showcase visual ${i + 1}`} loading="lazy" style={item.fit ? { objectFit: item.fit } : undefined} />
                   <div className="gallery-item-caption">{item.caption}</div>
                 </div>
               ))}

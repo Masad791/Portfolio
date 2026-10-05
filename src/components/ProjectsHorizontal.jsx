@@ -2,13 +2,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { projects } from '../data/projectsData';
+import { projects as allProjects } from '../data/projectsData';
 import ProjectCard from './ProjectCard';
 import { VariablePhysicsText, LiquidMetalText } from 'motion-organic/react';
 import { MoAudio } from 'motion-organic';
 import { useTheme, LIQUID_METAL_PALETTE } from '../context/ThemeContext';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Featured projects get their own stacked section; this gallery shows the rest.
+const projects = allProjects.filter((p) => !p.featured);
 
 export default function ProjectsHorizontal() {
   const sectionRef = useRef(null);
@@ -182,7 +185,7 @@ export default function ProjectsHorizontal() {
   };
 
   return (
-    <section id="projects" className="projects-horizontal-section" ref={sectionRef}>
+    <section id="more-work" className="projects-horizontal-section" ref={sectionRef}>
       <div className="projects-horizontal-container">
         <div className="projects-header-wrapper">
           <div className="container">
@@ -190,7 +193,7 @@ export default function ProjectsHorizontal() {
               <div>
                 <span className="section-badge">
                   <VariablePhysicsText color="var(--bh-red)" minWeight={400} maxWeight={900}>
-                    // SELECTED WORK
+                    // MORE WORK
                   </VariablePhysicsText>
                 </span>
                 <h2>
