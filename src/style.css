@@ -1452,7 +1452,13 @@ border-width: 1px 4px 1px 1px;
   .project-card {
     width: 82vw;
     max-width: 320px;
-    height: 440px;
+    height: min(440px, 54vh);
+  }
+  .projects-horizontal-section {
+    padding-top: 72px; /* clear the floating navbar */
+  }
+  .projects-controls-cluster .hint-text {
+    display: none;
   }
   .projects-track {
     gap: 20px;
@@ -2395,14 +2401,69 @@ border-width: 1px 4px 1px 1px;
   position: absolute;
   left: 50%;
   top: 50%;
-  width: clamp(70px, 9vw, 120px);
+  width: clamp(84px, 10vw, 148px);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
+  z-index: 1000; /* middle of the 0-2000 depth scale set in OrbitShowcase */
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.orbit-core:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.orbit-core:focus-visible {
+  outline: 2px solid var(--bh-red);
+  outline-offset: 6px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffb08a 0%, var(--bh-red) 38%, #7a1d06 72%, #1a0802 100%);
-  box-shadow: 0 0 60px rgba(255, 74, 28, 0.45), 0 0 140px rgba(255, 74, 28, 0.2);
-  z-index: 500;
+}
+/* Accretion disk: a spinning conic ring, tilted by JS to match the orbit plane. */
+.bh-tilt {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 290%;
+  aspect-ratio: 1;
   pointer-events: none;
+}
+.bh-front {
+  clip-path: inset(50% 0 0 0); /* lower half of the tilted disk faces the viewer */
+}
+.bh-disk {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    rgba(255, 74, 28, 0) 0deg,
+    rgba(255, 140, 60, 0.95) 40deg,
+    rgba(255, 238, 214, 1) 72deg,
+    rgba(255, 120, 40, 0.75) 120deg,
+    rgba(255, 74, 28, 0.08) 180deg,
+    rgba(255, 150, 80, 0.85) 245deg,
+    rgba(255, 242, 224, 0.95) 290deg,
+    rgba(255, 74, 28, 0) 360deg
+  );
+  -webkit-mask: radial-gradient(closest-side, transparent 37%, #000 41%, #000 80%, transparent 100%);
+  mask: radial-gradient(closest-side, transparent 37%, #000 41%, #000 80%, transparent 100%);
+  animation: bh-spin 7s linear infinite;
+}
+@keyframes bh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Event horizon with its photon ring. */
+.bh-horizon {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #000 62%, #0b0806 100%);
+  box-shadow:
+    0 0 0 2px rgba(255, 228, 200, 0.95),
+    0 0 18px 4px rgba(255, 120, 50, 0.55),
+    0 0 70px 12px rgba(255, 74, 28, 0.22);
 }
 .orbit-card,
 .orbit-chip {
@@ -2473,11 +2534,20 @@ border-width: 1px 4px 1px 1px;
   color: #3f3f46;
 }
 .orbit-front {
-  text-align: center;
+  display: block;
+  margin: 0 auto;
+  padding: 8px 14px;
+  background: none;
+  border: 0;
   font-family: "JetBrains Mono", monospace;
   font-size: 12px;
   color: var(--bh-red);
-  min-height: 1.5em;
+  min-height: 2.5em;
+  cursor: pointer;
+}
+.orbit-front:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 [data-theme="dark"] .orbit-card-media {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
@@ -2617,18 +2687,56 @@ border-width: 1px 4px 1px 1px;
   object-fit: cover;
 }
 
-@media (max-width: 900px) {
-  .feature-card {
-    padding: 0 16px;
-  }
+/* Small or short laptop screens: long titles like "Finance Management System" need a tighter card. */
+@media (min-width: 901px) and (max-width: 1200px), (min-width: 901px) and (max-height: 820px) {
   .feature-inner {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
-    gap: 20px;
-    padding: 22px;
-    height: 88vh;
+    padding: 34px;
+    gap: 34px;
+  }
+  .feature-copy h3 {
+    font-size: clamp(1.8rem, 2.9vw, 2.4rem);
   }
   .feature-desc {
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 900px) {
+  .feature-card {
+    padding: 84px 16px 16px; /* clear the floating navbar */
+  }
+  /* Phones and tablets: image first at a fixed ratio, so long titles can never squash it. */
+  .feature-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px;
+    height: auto;
+    max-height: calc(100dvh - 100px);
+  }
+  .feature-media {
+    order: -1;
+    flex: none;
+    width: 100%; /* the card centers children; without this the image box collapses */
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+  .feature-copy h3 {
+    font-size: clamp(1.5rem, 6.4vw, 2.4rem);
+    margin: 6px 0 4px;
+  }
+  .feature-badge {
+    margin-bottom: 10px;
+  }
+  .feature-desc {
+    font-size: 14px;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .feature-copy .project-tags {
     margin-bottom: 14px;
   }
   .feature-facts {
@@ -2653,24 +2761,46 @@ border-width: 1px 4px 1px 1px;
     display: none;
   }
   .orbit-card {
-    width: 118px;
+    width: 100px;
   }
   .orbit-ring-outer {
-    width: 88vw;
-    height: 88vw;
+    width: 72vw;
+    height: 72vw;
   }
   .orbit-ring-inner {
-    width: 44vw;
-    height: 44vw;
+    width: 36vw;
+    height: 36vw;
   }
   .orbit-card-title {
     display: none;
   }
 }
 
+/* Short phones (e.g. 360x640): trim the card so the whole thing fits on screen. */
+@media (max-width: 900px) and (max-height: 700px) {
+  .feature-badge {
+    display: none;
+  }
+  .feature-media {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 900px) {
+  .orbit-core {
+    width: 56px;
+  }
+  .bh-tilt {
+    width: 240%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mf-word {
     opacity: 1;
+  }
+  .bh-disk {
+    animation: none;
   }
 }
 .feature-shade {

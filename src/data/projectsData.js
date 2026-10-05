@@ -13,7 +13,7 @@ export const projects = [
     status: "Working Desktop App",
     transition: "organic-blob",
     transitionWord: "VOICE",
-    image: "/projects/vc-cover.png",
+    image: "/projects/vc-cover.webp",
     accent: "#ea580c",
     challenge: {
       tag: "01 // CONTEXT",
@@ -44,8 +44,8 @@ export const projects = [
       ]
     },
     gallery: [
-      { src: "/projects/vc-dark.png", caption: "// 01. Dark mode, AI voice selected", fit: "contain" },
-      { src: "/projects/vc-light.png", caption: "// 02. Light mode follows Windows", fit: "contain" }
+      { src: "/projects/vc-dark.webp", caption: "// 01. Dark mode, AI voice selected", fit: "contain" },
+      { src: "/projects/vc-light.webp", caption: "// 02. Light mode follows Windows", fit: "contain" }
     ],
     metrics: [
       { number: "~0%", label: "CPU used while you are silent" },
@@ -68,7 +68,7 @@ export const projects = [
     status: "Open Source // v1.1.1",
     transition: "organic-blob",
     transitionWord: "PANELS",
-    image: "/projects/bookmark-floating.png",
+    image: "/projects/bookmark-floating.webp",
     github: "https://github.com/Masad791/BookmarkPanels",
     accent: "#8fb3c9",
     challenge: {
@@ -100,10 +100,10 @@ export const projects = [
       ]
     },
     gallery: [
-      { src: "/projects/bookmark-overview.png", caption: "// 01. Slide-in glass sidebar" },
-      { src: "/projects/bookmark-any-site.png", caption: "// 02. Works on top of any website" },
-      { src: "/projects/bookmark-search.png", caption: "// 03. Instant search across panels" },
-      { src: "/projects/bookmark-light.png", caption: "// 04. Light theme" }
+      { src: "/projects/bookmark-overview.webp", caption: "// 01. Slide-in glass sidebar" },
+      { src: "/projects/bookmark-any-site.webp", caption: "// 02. Works on top of any website" },
+      { src: "/projects/bookmark-search.webp", caption: "// 03. Instant search across panels" },
+      { src: "/projects/bookmark-light.webp", caption: "// 04. Light theme" }
     ],
     metrics: [
       { number: "0", label: "Servers. Your data stays in your browser" },
@@ -126,7 +126,7 @@ export const projects = [
     status: "Private Repository",
     transition: "organic-blob",
     transitionWord: "FINANCE",
-    image: "/projects/fms-cover.png",
+    image: "/projects/fms-cover.webp",
     accent: "#a3e635",
     challenge: {
       tag: "01 // CONTEXT",
@@ -176,7 +176,7 @@ export const projects = [
     status: "Open Source // MIT",
     transition: "organic-blob",
     transitionWord: "PULSE",
-    image: "/projects/devpulse-news.png",
+    image: "/projects/devpulse-news.webp",
     github: "https://github.com/Masad791/devpulse",
     challenge: {
       tag: "01 // CONTEXT",
@@ -207,8 +207,8 @@ export const projects = [
       ]
     },
     gallery: [
-      { src: "/projects/devpulse-news.png", caption: "// 01. Ranked news feed with live Buzz" },
-      { src: "/projects/devpulse-repos.png", caption: "// 02. Trending repositories by topic" }
+      { src: "/projects/devpulse-news.webp", caption: "// 01. Ranked news feed with live Buzz" },
+      { src: "/projects/devpulse-repos.webp", caption: "// 02. Trending repositories by topic" }
     ],
     metrics: [
       { number: "54", label: "News sources in one feed" },
@@ -230,7 +230,7 @@ export const projects = [
     status: "In Development",
     transition: "organic-blob",
     transitionWord: "CINEMA",
-    image: "/projects/cinebook-cover.png",
+    image: "/projects/cinebook-cover.webp",
     challenge: {
       tag: "01 // CONTEXT",
       title: "No Double Bookings, Ever",
@@ -279,7 +279,7 @@ export const projects = [
     status: "Working Desktop Tool",
     transition: "organic-blob",
     transitionWord: "UPSCALE",
-    image: "/projects/upscaler-cover.png",
+    image: "/projects/upscaler-cover.webp",
     challenge: {
       tag: "01 // CONTEXT",
       title: "Hour-Long Videos on a Laptop",
@@ -309,7 +309,7 @@ export const projects = [
       ]
     },
     gallery: [
-      { src: "/projects/upscaler-gui.png", caption: "// 01. One window, four quality modes", fit: "contain" }
+      { src: "/projects/upscaler-gui.webp", caption: "// 01. One window, four quality modes", fit: "contain" }
     ],
     metrics: [
       { number: "~3x", label: "Real time in Fast mode" },
@@ -331,7 +331,7 @@ export const projects = [
     status: "Private Repository",
     transition: "organic-blob",
     transitionWord: "TASKS",
-    image: "/projects/taskflow-cover.png",
+    image: "/projects/taskflow-cover.webp",
     challenge: {
       tag: "01 // CONTEXT",
       title: "Who Can Touch What",
@@ -368,56 +368,55 @@ export const projects = [
     ]
   },
   {
-    id: "event-horizon",
+    id: "singularity",
     num: "08",
-    title: "Event Horizon",
-    badge: "// WEBGL // THREE.JS SHADERS",
-    shortDesc: "Real-time black hole experiments in hand-written Three.js shaders: 25,000 accretion particles, bent light and Doppler-shifted color.",
-    summary: "A set of WebGL experiments rendering a black hole in the browser. Particles orbit, heat up and stream into the event horizon, with blue and red shift on the approaching and receding sides.",
+    title: "Singularity Engine",
+    badge: "// INTERACTIVE WEBGL // THREE.JS + GLSL",
+    shortDesc: "An interactive black hole where your cursor becomes a second one. The primary horizon hunts it through 112,000 particles until they collide.",
+    summary: "A browser experiment about gravity. A primary black hole drifts after your cursor while it eats a 112,000-particle disk, and your cursor is a second black hole that bends the starfield with real-time gravitational lensing. When the two meet, a flash and a shockwave start a chain reaction that decides which horizon swallows the other.",
     role: "Creative Coding",
     timeline: "2026",
     stack: ["Three.js", "GLSL", "WebGL"],
-    status: "Experiment",
+    status: "Interactive Experiment",
     transition: "organic-blob",
-    transitionWord: "HORIZON",
-    image: "/projects/blackhole-river.png",
+    transitionWord: "SINGULARITY",
+    image: "/projects/singularity-cover.webp",
     challenge: {
       tag: "01 // CONTEXT",
-      title: "Making Gravity Visible",
+      title: "Gravity You Can Play With",
       paragraphs: [
-        "A black hole is the absence of light, so the only way to show it is through what happens around it: matter speeding up, heating and bending around the horizon.",
-        "Three variations explore that: a horizontal particle river, a vertical space-time bend and a glowing core that counts the mass it consumes."
+        "Most black hole visuals are something you watch. This one is something you are: the moment the mouse enters the page, the cursor turns into a black hole with its own pull and its own lensing.",
+        "The primary horizon slowly hunts you. Stay away and you watch it feed; let it catch you and the two collide."
       ],
       points: [
-        "Accretion disk that brightens as particles fall in",
-        "Blue shift on the approaching side, red shift on the receding side",
-        "Dense 90,000-star background",
-        "Runs live in the browser"
+        "Cursor becomes a black hole that bends light around it",
+        "Primary horizon drifts after the cursor while it feeds",
+        "Collision triggers a flash, a shockwave and a chain reaction",
+        "A live counter of particles left in the disk"
       ]
     },
     architecture: {
       tag: "02 // BLUEPRINT",
-      title: "Particles on the GPU",
+      title: "Two Render Passes",
       paragraphs: [
-        "Every particle lives in a Float32Array BufferGeometry with its own random seed, and all motion is computed in custom ShaderMaterial vertex shaders, so the CPU does almost nothing per frame.",
-        "Point size scales with each particle's heat and depth, and additive blending makes dense regions glow without any post-processing pass."
+        "Pass one renders the particle disk and a 140,000-star field into an off-screen texture. Pass two is a full-screen shader that samples that texture and bends the UVs around each horizon with an inverse-square falloff, then draws the photon ring and the warm halo.",
+        "Gravity is computed per particle in the vertex shader: each one is pulled toward both holes, and anything that crosses a horizon is discarded in the fragment shader, so the GPU does all the bookkeeping."
       ],
       points: [
-        "Custom GLSL vertex and fragment shaders",
-        "Per-particle seeds for organic motion",
-        "Additive blending instead of a bloom pass",
-        "Three.js r128 with no other dependencies"
+        "Render-to-texture plus a full-screen lensing shader",
+        "Inverse-square UV bending around both horizons",
+        "Per-particle pull toward two moving masses",
+        "Consumed particles discarded on the GPU"
       ]
     },
     gallery: [
-      { src: "/projects/blackhole-bend.png", caption: "// 01. Vertical space-time bend" },
-      { src: "/projects/blackhole-core.png", caption: "// 02. Core variation" }
+      { src: "/projects/singularity-hunt.webp", caption: "// 01. The primary horizon feeding on the disk" }
     ],
     metrics: [
-      { number: "25,000", label: "Accretion particles" },
-      { number: "4,000", label: "River particles" },
-      { number: "90,000", label: "Background stars" },
-      { number: "3", label: "Variations" }
+      { number: "112,000", label: "Disk particles" },
+      { number: "140,000", label: "Background stars" },
+      { number: "2", label: "Lensing horizons" },
+      { number: "2", label: "Render passes per frame" }
     ]
   }
 ];

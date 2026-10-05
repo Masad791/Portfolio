@@ -55,7 +55,7 @@ export default function OrbitShowcase() {
     const measure = () => {
       const w = stage.clientWidth;
       const narrow = w <= 900; // matches the 900px CSS breakpoint
-      st.R = Math.min(w * (narrow ? 0.44 : 0.4), 560);
+      st.R = Math.min(w * (narrow ? 0.36 : 0.4), 560);
       st.r = st.R * 0.5;
       // Phones get a steeper lean so the ring spreads vertically instead of piling up.
       st.base = narrow ? 34 : BASE_TILT;
@@ -65,7 +65,7 @@ export default function OrbitShowcase() {
     const ro = new ResizeObserver(measure);
     ro.observe(stage);
 
-    const place = (el, a, R, tilt, scaleBase, zShift = 0) => {
+    const place = (el, a, R, tilt, scaleBase, zBonus = 0) => {
       if (!el) return;
       const rad = (a * Math.PI) / 180;
       const t = (tilt * Math.PI) / 180;
@@ -76,7 +76,8 @@ export default function OrbitShowcase() {
       const depth = (c + 1) / 2; // 1 = front, 0 = back
       el.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${(Math.sin(rad) * 18).toFixed(1)}deg) scale(${scaleBase})`;
       el.style.opacity = (0.22 + depth * 0.78).toFixed(3);
-      el.style.zIndex = String(Math.round(depth * 1000) + zShift);
+      // Shared depth scale with the core at 1000: front half passes over it, back half under it.
+      el.style.zIndex = String(Math.round(depth * 2000) + zBonus);
     };
 
     const tick = () => {
@@ -90,9 +91,9 @@ export default function OrbitShowcase() {
       }
       st.tilt += (st.tiltTarget - st.tilt) * 0.08;
 
-      outerRefs.current.forEach((el, i) => place(el, st.rot + i * step, st.R, st.tilt, 1));
+      outerRefs.current.forEach((el, i) => place(el, st.rot + i * step, st.R, st.tilt, 1, 1)); // +1: cards win ties with chips
       const m = innerRefs.current.length;
-      innerRefs.current.forEach((el, i) => place(el, -st.rot * 1.35 + i * (360 / m), st.r, st.tilt, 1, -500)); // chips sit under cards at equal depth
+      innerRefs.current.forEach((el, i) => place(el, -st.rot * 1.35 + i * (360 / m), st.r, st.tilt, 1));
       ringRefs.current.forEach((el) => {
         if (el) el.style.transform = `translate(-50%, -50%) rotateX(${(90 - st.tilt).toFixed(2)}deg)`;
       });
@@ -101,7 +102,7 @@ export default function OrbitShowcase() {
       const front = ((Math.round(-st.rot / step) % n) + n) % n;
       if (front !== st.front && labelRef.current) {
         st.front = front;
-        labelRef.current.textContent = `${projects[front].num} // ${projects[front].title}`;
+        labelRef.current.textContent = `Open ${projects[front].num} // ${projects[front].title}`;
       }
     };
 
@@ -180,15 +181,20 @@ export default function OrbitShowcase() {
     }
   };
 
+  // Opens whichever project is at the front of the ring.
+  const openFront = (e) => {
+    const current = Math.round(-s.current.rot / step);
+    const p = projects[((current % n) + n) % n];
+    navigateWithPortal(`/project/${p.id}`, e?.clientX ? e : null, { transition: p.transition, word: p.transitionWord || p.title });
+  };
+
   const onKeyDown = (e) => {
-    const st = s.current;
-    const current = Math.round(-st.rot / step);
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault();
-      st.snap = -(current + (e.key === 'ArrowRight' ? 1 : -1)) * step;
-    } else if (e.key === 'Enter') {
-      const p = projects[((current % n) + n) % n];
-      navigateWithPortal(`/project/${p.id}`, null, { transition: p.transition, word: p.transitionWord || p.title });
+      const current = Math.round(-s.current.rot / step);
+      s.current.snap = -(current + (e.key === 'ArrowRight' ? 1 : -1)) * step;
+    } else if (e.key === 'Enter' && e.target === stageRef.current) {
+      openFront(null);
     }
   };
 
@@ -223,7 +229,12 @@ export default function OrbitShowcase() {
       >
         <div className="orbit-ring orbit-ring-outer" ref={(el) => (ringRefs.current[0] = el)} />
         <div className="orbit-ring orbit-ring-inner" ref={(el) => (ringRefs.current[1] = el)} />
-        <div className="orbit-core" aria-hidden="true" />
+        {/* Tiny Gargantua: the disk's back half sits behind the horizon, its front half crosses in front. */}
+        <button type="button" className="orbit-core" onClick={openFront} aria-label="Open the project at the front">
+          <span className="bh-tilt" ref={(el) => (ringRefs.current[2] = el)}><span className="bh-disk" /></span>
+          <span className="bh-horizon" />
+          <span className="bh-tilt bh-front" ref={(el) => (ringRefs.current[3] = el)}><span className="bh-disk" /></span>
+        </button>
 
         {STACK.map(([name, icon], i) => (
           <div className="orbit-chip" key={name} ref={(el) => (innerRefs.current[i] = el)}>
@@ -251,7 +262,7 @@ export default function OrbitShowcase() {
         ))}
       </div>
 
-      <p className="orbit-front" aria-live="polite" ref={labelRef} />
+      <button type="button" className="orbit-front" aria-live="polite" ref={labelRef} onClick={openFront} />
     </section>
   );
 }

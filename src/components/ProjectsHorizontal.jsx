@@ -17,7 +17,6 @@ export default function ProjectsHorizontal() {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const triggerRef = useRef(null);
-  const [activeNum, setActiveNum] = useState('01');
   const [activeIndex, setActiveIndex] = useState(0);
   const { isDark } = useTheme();
 
@@ -69,7 +68,6 @@ export default function ProjectsHorizontal() {
           Math.max(0, Math.round(self.progress * (count - 1)))
         );
         setActiveIndex(index);
-        setActiveNum(String(index + 1).padStart(2, '0'));
       }
     });
 
@@ -90,7 +88,6 @@ export default function ProjectsHorizontal() {
   const goToProject = (index) => {
     const targetIndex = Math.max(0, Math.min(projects.length - 1, index));
     setActiveIndex(targetIndex);
-    setActiveNum(String(targetIndex + 1).padStart(2, '0'));
 
     try {
       MoAudio.play('liquid', { velocity: 0.9, volume: 0.22 });
@@ -211,8 +208,9 @@ export default function ProjectsHorizontal() {
                 <div className="projects-controls-cluster">
                   <span className="hint-text">SLIDE OR SCROLL</span>
                   <span className="projects-counter">
-                    <span id="active-project-num">{activeNum}</span> /{' '}
-                    {String(projects.length).padStart(2, '0')}
+                    {/* Real project numbers (04-08 of 08) so the counter matches the pills. */}
+                    <span id="active-project-num">{projects[activeIndex]?.num}</span> /{' '}
+                    {String(allProjects.length).padStart(2, '0')}
                   </span>
                   <div className="projects-nav-arrows">
                     <button
