@@ -65,6 +65,10 @@ export default function Footer() {
                 <span className="item-num">04 //</span>
                 <span>Contact & Inquiries</span>
               </a>
+              <a href={profileData.gameUrl} className="footer-nav-item" target="_blank" rel="noopener noreferrer">
+                <span className="item-num">05 //</span>
+                <span>Play Stack World</span>
+              </a>
             </div>
           </div>
 

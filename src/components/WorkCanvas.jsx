@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LiquidMetalText } from 'motion-organic/react';
 import { projects } from '../data/projectsData';
+import { profileData } from '../data/profileData';
 import { MoPortalLink } from '../context/PortalTransitionContext';
 import { useTheme, LIQUID_METAL_PALETTE } from '../context/ThemeContext';
 
@@ -294,6 +295,9 @@ export default function WorkCanvas() {
             </LiquidMetalText>
           </h2>
           <p>Drag in any direction. Every tile is real: the projects, the numbers from their code, and the stack behind them.</p>
+          <a className="cv-play" href={profileData.gameUrl} target="_blank" rel="noopener noreferrer">
+            Play Stack World, the 3D version
+          </a>
         </div>
         <div className="cv-hud" aria-hidden="true">
           <span ref={hudRef}>X 0  Y 0</span>

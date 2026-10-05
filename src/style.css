@@ -2743,6 +2743,22 @@ border-width: 1px 4px 1px 1px;
   font-size: 13px;
   line-height: 1.7;
 }
+.cv-play {
+  pointer-events: auto; /* the overlay itself lets drags through */
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 25px;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+.cv-play:hover {
+  background: var(--bh-red);
+  color: #fff;
+}
 .cv-overlay::before {
   content: "";
   position: absolute;
@@ -2781,7 +2797,23 @@ border-width: 1px 4px 1px 1px;
   .cv-overlay {
     top: 80px;
   }
-  .cv-overlay::before {
+  .cv-play {
+  pointer-events: auto; /* the overlay itself lets drags through */
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 10px 18px;
+  border-radius: 25px;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+.cv-play:hover {
+  background: var(--bh-red);
+  color: #fff;
+}
+.cv-overlay::before {
     display: none;
   }
   .cv-overlay p {

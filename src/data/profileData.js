@@ -18,6 +18,9 @@ export const profileData = {
     whatsapp: "https://wa.me/+923047767415?text=Hi%20Muhammad%20Asad%2C%20I%20came%20across%20your%20portfolio%20and%20would%20like%20to%20connect."
   },
 
+  // Stack World, a small 3D game deployed as its own Netlify site.
+  gameUrl: "https://mad-stack-world.netlify.app",
+
   morphImage: "/ME.png",
   watermark: "MAD",
 
