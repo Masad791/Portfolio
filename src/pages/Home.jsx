@@ -4,7 +4,7 @@ import Hero from '../components/Hero';
 import MorphSection from '../components/MorphSection';
 import Manifesto from '../components/Manifesto';
 import Skills from '../components/Skills';
-import OrbitShowcase from '../components/OrbitShowcase';
+import WorkCanvas from '../components/WorkCanvas';
 import Capabilities from '../components/Capabilities';
 import FeaturedWork from '../components/FeaturedWork';
 import ProjectsHorizontal from '../components/ProjectsHorizontal';
@@ -28,7 +28,7 @@ export default function Home() {
       <MorphSection />
       <Manifesto />
       <Skills />
-      <OrbitShowcase />
+      <WorkCanvas />
       <Capabilities />
       <FeaturedWork />
       <ProjectsHorizontal />

@@ -2344,216 +2344,6 @@ border-width: 1px 4px 1px 1px;
 }
 
 /* ==========================================
-     ORBIT (draggable 3D ring of projects + stack)
-     ========================================== */
-.orbit-section {
-  padding: 120px 0 80px;
-  overflow: hidden;
-}
-.orbit-header h2 {
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 400;
-}
-.orbit-header p {
-  margin-top: 14px;
-  max-width: 62ch;
-  color: var(--muted);
-  font-family: "JetBrains Mono", monospace;
-  font-size: 13px;
-  line-height: 1.7;
-}
-.orbit-stage {
-  position: relative;
-  height: min(78vh, 760px);
-  min-height: 460px;
-  perspective: 1900px;
-  cursor: grab;
-  touch-action: pan-y;
-  user-select: none;
-  outline: none;
-}
-.orbit-stage:active {
-  cursor: grabbing;
-}
-.orbit-stage:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--bh-red);
-  border-radius: 24px;
-}
-.orbit-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  border: 1px dashed var(--line);
-  border-radius: 50%;
-  pointer-events: none;
-}
-.orbit-ring-outer {
-  width: min(80vw, 1120px);
-  height: min(80vw, 1120px);
-}
-.orbit-ring-inner {
-  width: min(40vw, 560px);
-  height: min(40vw, 560px);
-  border-style: solid;
-  opacity: 0.6;
-}
-.orbit-core {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: clamp(84px, 10vw, 148px);
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  z-index: 1000; /* middle of the 0-2000 depth scale set in OrbitShowcase */
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.orbit-core:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-}
-.orbit-core:focus-visible {
-  outline: 2px solid var(--bh-red);
-  outline-offset: 6px;
-  border-radius: 50%;
-}
-/* Accretion disk: a spinning conic ring, tilted by JS to match the orbit plane. */
-.bh-tilt {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 290%;
-  aspect-ratio: 1;
-  pointer-events: none;
-}
-.bh-front {
-  clip-path: inset(50% 0 0 0); /* lower half of the tilted disk faces the viewer */
-}
-.bh-disk {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: conic-gradient(
-    rgba(255, 74, 28, 0) 0deg,
-    rgba(255, 140, 60, 0.95) 40deg,
-    rgba(255, 238, 214, 1) 72deg,
-    rgba(255, 120, 40, 0.75) 120deg,
-    rgba(255, 74, 28, 0.08) 180deg,
-    rgba(255, 150, 80, 0.85) 245deg,
-    rgba(255, 242, 224, 0.95) 290deg,
-    rgba(255, 74, 28, 0) 360deg
-  );
-  -webkit-mask: radial-gradient(closest-side, transparent 37%, #000 41%, #000 80%, transparent 100%);
-  mask: radial-gradient(closest-side, transparent 37%, #000 41%, #000 80%, transparent 100%);
-  animation: bh-spin 7s linear infinite;
-}
-@keyframes bh-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-/* Event horizon with its photon ring. */
-.bh-horizon {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #000 62%, #0b0806 100%);
-  box-shadow:
-    0 0 0 2px rgba(255, 228, 200, 0.95),
-    0 0 18px 4px rgba(255, 120, 50, 0.55),
-    0 0 70px 12px rgba(255, 74, 28, 0.22);
-}
-.orbit-card,
-.orbit-chip {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  will-change: transform, opacity;
-}
-.orbit-card {
-  width: clamp(150px, 16vw, 250px);
-}
-.orbit-card-link {
-  display: block;
-  color: var(--fg);
-  text-decoration: none;
-  -webkit-user-drag: none;
-}
-.orbit-card-media {
-  display: block;
-  aspect-ratio: 16 / 10;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: var(--input-bg);
-  box-shadow: 0 24px 60px rgba(14, 14, 15, 0.18);
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.orbit-card-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-}
-.orbit-card-link:hover .orbit-card-media {
-  border-color: var(--bh-red);
-  box-shadow: 0 24px 60px rgba(255, 74, 28, 0.28);
-}
-.orbit-card-title {
-  display: block;
-  margin-top: 10px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.orbit-chip {
-  width: 74px;
-  padding: 10px 6px 8px;
-  border-radius: 16px;
-  background: #f6f5f2;
-  border: 1px solid rgba(14, 14, 15, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  pointer-events: none;
-}
-.orbit-chip img {
-  width: 34px;
-  height: 34px;
-}
-.orbit-chip span {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 9px;
-  color: #3f3f46;
-}
-.orbit-front {
-  display: block;
-  margin: 0 auto;
-  padding: 8px 14px;
-  background: none;
-  border: 0;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 12px;
-  color: var(--bh-red);
-  min-height: 2.5em;
-  cursor: pointer;
-}
-.orbit-front:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-[data-theme="dark"] .orbit-card-media {
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-}
-
-/* ==========================================
      FEATURED WORK (sticky card stack)
      ========================================== */
 .featured-section {
@@ -2742,38 +2532,6 @@ border-width: 1px 4px 1px 1px;
   .feature-facts {
     display: none;
   }
-  .orbit-section {
-    padding: 80px 0 40px;
-  }
-  .orbit-stage {
-    min-height: 360px;
-    height: 52vh;
-  }
-  .orbit-chip {
-    width: 56px;
-    padding: 7px 4px 6px;
-  }
-  .orbit-chip img {
-    width: 24px;
-    height: 24px;
-  }
-  .orbit-chip span {
-    display: none;
-  }
-  .orbit-card {
-    width: 100px;
-  }
-  .orbit-ring-outer {
-    width: 72vw;
-    height: 72vw;
-  }
-  .orbit-ring-inner {
-    width: 36vw;
-    height: 36vw;
-  }
-  .orbit-card-title {
-    display: none;
-  }
 }
 
 /* Short phones (e.g. 360x640): trim the card so the whole thing fits on screen. */
@@ -2786,21 +2544,9 @@ border-width: 1px 4px 1px 1px;
   }
 }
 
-@media (max-width: 900px) {
-  .orbit-core {
-    width: 56px;
-  }
-  .bh-tilt {
-    width: 240%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .mf-word {
     opacity: 1;
-  }
-  .bh-disk {
-    animation: none;
   }
 }
 .feature-shade {
@@ -2810,4 +2556,244 @@ border-width: 1px 4px 1px 1px;
   opacity: 0;
   pointer-events: none;
   z-index: 2;
+}
+
+/* ==========================================
+     WORK CANVAS (infinite drag-to-explore world)
+     ========================================== */
+.cv-section {
+  position: relative;
+}
+.cv-stage {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 560px;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y; /* vertical swipes still scroll the page on phones */
+  user-select: none;
+  outline: none;
+  /* Fade the world out at the edges so wrapping tiles never pop in visibly. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent),
+    linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-composite: intersect;
+}
+.cv-stage:active {
+  cursor: grabbing;
+}
+.cv-stage:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--bh-red);
+}
+.cv-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.cv-world {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.cv-tile {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+/* Depth layers: background words, then numbers, projects, and chips in front. */
+.cv-word { z-index: 0; }
+.cv-metric { z-index: 1; }
+.cv-project { z-index: 2; }
+.cv-chip { z-index: 3; }
+.cv-project a {
+  display: block;
+  color: var(--fg);
+  text-decoration: none;
+  -webkit-user-drag: none;
+}
+.cv-media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--input-bg);
+  box-shadow: 0 30px 70px rgba(14, 14, 15, 0.16);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+}
+.cv-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.cv-project a:hover .cv-media,
+.cv-project a:focus-visible .cv-media {
+  transform: translateY(-6px) scale(1.03);
+  border-color: var(--bh-red);
+  box-shadow: 0 30px 70px rgba(255, 74, 28, 0.25);
+}
+.cv-caption {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.cv-caption b {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--bh-red);
+}
+.cv-caption i {
+  margin-left: auto;
+  font-style: normal;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+.cv-metric {
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.cv-metric strong {
+  display: block;
+  font-size: 2.6rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.cv-metric span {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.cv-metric em {
+  display: block;
+  margin-top: 12px;
+  font-style: normal;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--bh-red);
+}
+.cv-chip {
+  width: 84px;
+  padding: 12px 6px 9px;
+  border-radius: 18px;
+  background: #f6f5f2;
+  border: 1px solid rgba(14, 14, 15, 0.08);
+  box-shadow: 0 14px 30px rgba(14, 14, 15, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.cv-chip img {
+  width: 38px;
+  height: 38px;
+  pointer-events: none;
+}
+.cv-chip span {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  color: #3f3f46;
+}
+.cv-word {
+  font-size: 104px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line);
+  pointer-events: none;
+}
+/* Heading and HUD sit above the world; only their text blocks pointer events. */
+.cv-overlay {
+  position: absolute;
+  top: 110px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.cv-overlay h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+}
+.cv-overlay p {
+  margin-top: 12px;
+  max-width: 46ch;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.cv-overlay::before {
+  content: "";
+  position: absolute;
+  inset: -110px -40px -60px;
+  background: radial-gradient(60% 100% at 20% 30%, var(--bg) 35%, transparent 75%);
+  z-index: -1;
+}
+.cv-hud {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 34px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+  pointer-events: none;
+  z-index: 2;
+  white-space: pre;
+}
+[data-theme="dark"] .cv-media {
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 900px) {
+  .cv-stage {
+    height: 82vh;
+    height: 82dvh;
+    min-height: 520px;
+  }
+  /* Phones: heading becomes a band above the canvas instead of floating over it. */
+  .cv-viewport {
+    top: 210px;
+  }
+  .cv-overlay {
+    top: 80px;
+  }
+  .cv-overlay::before {
+    display: none;
+  }
+  .cv-overlay p {
+    font-size: 12px;
+    max-width: 34ch;
+  }
+  .cv-hud {
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
+  }
+  .cv-hud span:last-child {
+    display: none;
+  }
 }
