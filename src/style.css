@@ -17,7 +17,7 @@
   --fg: #f2f0eb;
   --muted: #888888;
   --line: rgba(242, 240, 235, 0.2);
-  --bh-red: #ff4a1c;
+  --bh-red: #ff7a45; /* lighter orange so accents stay readable on near-black */
   --glass-bg: rgba(20, 20, 22, 0.6);
   --tech-bg: rgba(20, 20, 22, 0.9);
   --input-bg: #151516;
@@ -488,37 +488,8 @@ border-width: 1px 4px 1px 1px;
 }
 
 /* ==========================================
-     10. PROJECTS SECTION (Horizontal Pin Scroll)
+     10. MORE PROJECTS (Expanding hover panels)
      ========================================== */
-.projects-horizontal-section {
-  padding: 0;
-  height: 100vh;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-}
-.projects-horizontal-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-}
-.projects-header-wrapper {
-  width: 100%;
-  padding: 20px 0 10px;
-  z-index: 5;
-}
-.projects-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-bottom: 1px dashed var(--line);
-  padding-bottom: 15px;
-}
 .section-badge {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
@@ -527,236 +498,199 @@ border-width: 1px 4px 1px 1px;
   display: block;
   margin-bottom: 6px;
 }
-.projects-header h2 {
-  font-size: clamp(1.8rem, 3.8vw, 3.2rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
+.panels-section {
+  padding: 140px 0;
 }
-.projects-scroll-indicator {
+.panels-head {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: flex-end;
-  gap: 8px;
+  gap: 24px;
 }
-.projects-controls-cluster {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.panels-head h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--fg);
 }
-.hint-text {
+.panels-head p {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
-  color: var(--muted);
   letter-spacing: 0.5px;
 }
-.projects-counter {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--fg);
-}
-#active-project-num {
-  color: var(--bh-red);
-}
-
-/* Manual Navigation Arrow Buttons */
-.projects-nav-arrows {
+.panels {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 10px;
+  height: 520px;
+  margin-top: 48px;
+  container-type: inline-size;
 }
-.projects-nav-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--tech-bg);
-  border: 1px solid var(--line);
-  color: var(--fg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 0;
-}
-.projects-nav-btn:hover:not(:disabled) {
-  background: var(--bh-red);
-  color: #ffffff;
-  border-color: var(--bh-red);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(255, 74, 28, 0.35);
-}
-.projects-nav-btn:active:not(:disabled) {
-  transform: scale(0.94);
-}
-.projects-nav-btn:disabled {
-  opacity: 0.25;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* Quick Jump Pagination Pills */
-.projects-pagination-pills {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.projects-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  background: var(--tech-bg);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-.projects-pill .pill-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.5;
-  transition: all 0.25s ease;
-}
-.projects-pill:hover {
-  color: var(--fg);
-  border-color: var(--bh-red);
-  transform: translateY(-1px);
-}
-.projects-pill.active {
-  color: #ffffff;
-  background: var(--bh-red);
-  border-color: var(--bh-red);
-  box-shadow: 0 2px 10px rgba(255, 74, 28, 0.35);
-}
-.projects-pill.active .pill-dot {
-  opacity: 1;
-  background: #ffffff;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-}
-
-.projects-track-wrapper {
-  width: 100%;
-  overflow: visible;
-  display: flex;
-  align-items: center;
-  padding: 25px 0 15px;
-  cursor: grab;
-  user-select: none;
-  touch-action: pan-y;
-}
-.projects-track-wrapper.is-dragging {
-  cursor: grabbing;
-}
-.projects-track {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 35px;
-  width: max-content;
-  padding-left: 5vw;
-  padding-right: 15vw;
-  will-change: transform;
-}
-
-/* 3D Flip Card Setup in Horizontal Track */
-.project-card {
-  perspective: 1500px;
-  width: 420px;
-  max-width: 82vw;
-  height: 490px;
-  flex-shrink: 0;
-  opacity: 1;
-  transform: none;
-  transition: transform 0.4s ease;
-}
-.project-card:hover {
-  transform: translateY(-4px);
-}
-.card-inner {
+.panel {
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-  transform-style: preserve-3d;
-}
-.project-card:hover .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: 12px;
+  flex: 1 1 0;
+  min-width: 0;
   overflow: hidden;
+  border-radius: 18px;
   border: 1px solid var(--line);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+  background: #0b0b0d;
+  cursor: pointer;
+  outline: none;
+  transition: flex-grow 0.7s var(--ease), height 0.7s var(--ease);
 }
-.card-front img {
+.panel.is-open {
+  flex-grow: 5;
+  cursor: default;
+}
+.panel:focus-visible {
+  box-shadow: 0 0 0 2px var(--bh-red);
+}
+.panel img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.08);
+  filter: saturate(0.85);
+  transition: transform 1s var(--ease), filter 0.6s ease;
 }
-.card-front-overlay {
+.panel:hover img,
+.panel.is-open img {
+  transform: scale(1);
+  filter: none;
+}
+.panel-shade {
   position: absolute;
-  bottom: 0;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 35%, transparent 70%);
+}
+.panel-spine {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  writing-mode: vertical-rl;
+  transform: translateX(-50%) rotate(180deg);
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  transition: opacity 0.3s ease;
+}
+.panel.is-open .panel-spine {
+  opacity: 0;
+}
+.panel-body {
+  position: absolute;
   left: 0;
-  width: 100%;
-  padding: 24px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
-  color: #fff;
+  bottom: 0;
+  /* Open panel's final width (5 of 9 flex parts, minus gaps), so text never reflows mid-animation. */
+  width: calc((100cqw - 40px) * 5 / 9);
+  padding: 32px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
 }
-.card-num {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 12px;
-  color: var(--bh-red);
-  display: block;
-  margin-bottom: 4px;
+.panel.is-open .panel-body {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease 0.25s, transform 0.6s var(--ease) 0.25s;
+  pointer-events: auto;
 }
-.card-front-overlay h3 {
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: #fff;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-  background: var(--tech-bg);
-  padding: 35px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: background 0.4s;
-}
-.card-num-back {
+.panel-num {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
-  color: var(--bh-red);
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.55);
 }
-.card-back h3 {
-  font-size: 1.8rem;
-  margin-bottom: 12px;
-  font-weight: 500;
+.panel-body h3 {
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 4px 0 8px;
 }
-.card-back p {
-  color: var(--muted);
-  margin-bottom: 20px;
+.panel-body p {
+  max-width: 46ch;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
 }
+.panel-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 540px;
+  margin-top: 20px;
+}
+.panel-meta span {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+}
+.panel-link {
+  flex-shrink: 0;
+  padding: 9px 18px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.panel-link:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #0b0b0d;
+}
+@media (max-width: 768px) {
+  .panels-section {
+    padding: 90px 0;
+  }
+  .panels-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .panels {
+    flex-direction: column;
+    height: auto;
+    margin-top: 32px;
+  }
+  .panel {
+    flex: none;
+    height: 76px;
+  }
+  .panel.is-open {
+    height: 440px;
+  }
+  .panel-spine {
+    left: 20px;
+    bottom: 50%;
+    writing-mode: horizontal-tb;
+    transform: translateY(50%);
+  }
+  .panel-body {
+    width: 100%;
+    padding: 22px;
+  }
+  .panel-meta {
+    flex-wrap: wrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel img,
+  .panel-body,
+  .panel.is-open .panel-body {
+    transition: none;
+  }
+}
+
 .project-tags {
   display: flex;
   gap: 8px;
@@ -1449,59 +1383,6 @@ border-width: 1px 4px 1px 1px;
      14. RESPONSIVE MEDIA QUERIES
      ========================================== */
 @media (max-width: 768px) {
-  .project-card {
-    width: 82vw;
-    max-width: 320px;
-    height: min(440px, 54vh);
-  }
-  .projects-horizontal-section {
-    padding-top: 72px; /* clear the floating navbar */
-  }
-  .projects-controls-cluster .hint-text {
-    display: none;
-  }
-  .projects-track {
-    gap: 20px;
-    padding-left: 6vw;
-    padding-right: 25vw;
-  }
-  .projects-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-  .projects-scroll-indicator {
-    width: 100%;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  .projects-controls-cluster {
-    width: 100%;
-    justify-content: space-between;
-  }
-  .projects-pagination-pills {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 3px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .card-front-overlay {
-    padding: 16px;
-  }
-  .card-front-overlay h3 {
-    font-size: 1.3rem;
-  }
-  .card-back {
-    padding: 24px 20px;
-  }
-  .card-back h3 {
-    font-size: 1.4rem;
-  }
-  .card-back p {
-    font-size: 0.88rem;
-    line-height: 1.5;
-    margin-bottom: 15px;
-  }
   #footer-bh {
     min-height: auto;
     padding: 70px 0 25px;
@@ -1593,9 +1474,6 @@ border-width: 1px 4px 1px 1px;
   }
   .caps-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-  .projects-header h2 {
-    font-size: 3.5rem;
   }
   .form-wrapper {
     grid-template-columns: 1fr 1.5fr;
@@ -2087,9 +1965,9 @@ border-width: 1px 4px 1px 1px;
     115deg,
     #f2f0eb 0%,
     #f2f0eb 30%,
-    #ff622e 45%,
+    #ff8a5c 45%,
     #ffd2b8 50%,
-    #ff4a1c 55%,
+    #ff7a45 55%,
     #f2f0eb 70%,
     #f2f0eb 100%
   );
@@ -2172,6 +2050,10 @@ border-width: 1px 4px 1px 1px;
   animation: moAuroraFlow 10s ease-in-out infinite alternate;
 }
 
+[data-theme="dark"] .mo-aurora-text {
+  background-image: linear-gradient(135deg, var(--fg) 20%, var(--bh-red) 45%, #ffb38a 68%, #d4d4d8 85%, var(--fg) 100%);
+}
+
 @keyframes moAuroraFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -2196,23 +2078,8 @@ border-width: 1px 4px 1px 1px;
 }
 
 /* 6. Card & Portal Micro-Interactions */
-.card-project-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  color: var(--fg);
-  margin-top: 4px;
-  line-height: 1.25;
-  transition: color 0.25s ease, transform 0.25s ease;
-}
 
-.project-card:hover .card-project-title {
-  color: var(--bh-red);
-}
 
-.project-card {
-  will-change: transform;
-}
 
 .project-link-btn {
   position: relative;

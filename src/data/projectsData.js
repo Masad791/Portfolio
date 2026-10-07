@@ -126,7 +126,10 @@ export const projects = [
     status: "Private Repository",
     transition: "organic-blob",
     transitionWord: "FINANCE",
-    image: "/projects/fms-cover.webp",
+    image: "/projects/fms-ui.webp",
+    gallery: [
+      { src: "/projects/fms-cover.webp", caption: "// Code. Image pipeline and route map" }
+    ],
     accent: "#a3e635",
     challenge: {
       tag: "01 // CONTEXT",
@@ -176,7 +179,7 @@ export const projects = [
     status: "Open Source // MIT",
     transition: "organic-blob",
     transitionWord: "PULSE",
-    image: "/projects/devpulse-news.webp",
+    image: "/projects/devpulse-ui.webp",
     github: "https://github.com/Masad791/devpulse",
     challenge: {
       tag: "01 // CONTEXT",
@@ -230,7 +233,10 @@ export const projects = [
     status: "In Development",
     transition: "organic-blob",
     transitionWord: "CINEMA",
-    image: "/projects/cinebook-cover.webp",
+    image: "/projects/cinebook-ui.webp",
+    gallery: [
+      { src: "/projects/cinebook-cover.webp", caption: "// Code. Atomic Redis seat hold" }
+    ],
     challenge: {
       tag: "01 // CONTEXT",
       title: "No Double Bookings, Ever",
@@ -279,7 +285,7 @@ export const projects = [
     status: "Working Desktop Tool",
     transition: "organic-blob",
     transitionWord: "UPSCALE",
-    image: "/projects/upscaler-cover.webp",
+    image: "/projects/upscaler-ui.webp",
     challenge: {
       tag: "01 // CONTEXT",
       title: "Hour-Long Videos on a Laptop",
@@ -309,7 +315,8 @@ export const projects = [
       ]
     },
     gallery: [
-      { src: "/projects/upscaler-gui.webp", caption: "// 01. One window, four quality modes", fit: "contain" }
+      { src: "/projects/upscaler-gui.webp", caption: "// 01. One window, four quality modes", fit: "contain" },
+      { src: "/projects/upscaler-cover.webp", caption: "// 02. Measured speeds per mode" }
     ],
     metrics: [
       { number: "~3x", label: "Real time in Fast mode" },
@@ -331,7 +338,10 @@ export const projects = [
     status: "Private Repository",
     transition: "organic-blob",
     transitionWord: "TASKS",
-    image: "/projects/taskflow-cover.webp",
+    image: "/projects/taskflow-ui.webp",
+    gallery: [
+      { src: "/projects/taskflow-cover.webp", caption: "// Code. Permission-guarded routes" }
+    ],
     challenge: {
       tag: "01 // CONTEXT",
       title: "Who Can Touch What",

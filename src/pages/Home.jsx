@@ -7,7 +7,7 @@ import Skills from '../components/Skills';
 import WorkCanvas from '../components/WorkCanvas';
 import Capabilities from '../components/Capabilities';
 import FeaturedWork from '../components/FeaturedWork';
-import ProjectsHorizontal from '../components/ProjectsHorizontal';
+import ProjectPanels from '../components/ProjectPanels';
 import Marquee from '../components/Marquee';
 import ContactForm from '../components/ContactForm';
 import Footer from '../components/Footer';
@@ -31,7 +31,7 @@ export default function Home() {
       <WorkCanvas />
       <Capabilities />
       <FeaturedWork />
-      <ProjectsHorizontal />
+      <ProjectPanels />
       <Marquee />
       <ContactForm />
       <Footer />
