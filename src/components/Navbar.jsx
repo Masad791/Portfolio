@@ -20,6 +20,16 @@ export default function Navbar() {
   const isClickingRef = useRef(false);
   const clickTimeoutRef = useRef(null);
 
+  // Liquid-glass morph: the bar shrinks into a 3-dot droplet on scroll down.
+  const navRef = useRef(null);
+  const innerRef = useRef(null);
+  const dotsRef = useRef(null);
+  const rippleRef = useRef(null);
+  const collapsedRef = useRef(false);
+  const morphRef = useRef(null);
+  const [collapsed, setCollapsed] = useState(false);
+  const [canRefract] = useState(() => !!navigator.userAgentData?.brands?.some((b) => b.brand === 'Chromium'));
+
   // Keep activeSectionRef synced
   useEffect(() => {
     activeSectionRef.current = activeSection;
@@ -236,6 +246,87 @@ export default function Navbar() {
     };
   }, [location.pathname]);
 
+  const morph = (toCollapsed, instant = false) => {
+    const nav = navRef.current, inner = innerRef.current, dots = dotsRef.current;
+    if (!nav || collapsedRef.current === toCollapsed) return;
+    collapsedRef.current = toCollapsed;
+    setCollapsed(toCollapsed);
+    inner.inert = toCollapsed; // keep hidden links out of the tab order
+
+    const cs = getComputedStyle(nav);
+    const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+    const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    const full = { width: inner.offsetWidth + padX + 2, height: inner.offsetHeight + padY + 2 };
+    const pill = { width: 64, height: 42 };
+    const reduce = instant || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    morphRef.current?.kill();
+    const tl = gsap.timeline({
+      onComplete: () => { if (!toCollapsed) gsap.set(nav, { clearProps: 'width,height' }); },
+    });
+    morphRef.current = tl;
+    if (reduce) tl.timeScale(20);
+
+    const from = { width: nav.offsetWidth, height: nav.offsetHeight };
+    const to = toCollapsed ? pill : full;
+
+    if (toCollapsed) {
+      tl.to(inner, { opacity: 0, scale: 0.9, filter: 'blur(6px)', duration: 0.2, ease: 'power2.in' }, 0)
+        .fromTo(nav, from, { ...to, duration: 1.1, ease: 'elastic.out(1, 0.55)' }, 0.06)
+        .fromTo(dots, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2.6)' }, 0.32)
+        .fromTo(dots.children, { y: 0 }, { y: -4, duration: 0.16, ease: 'sine.out', yoyo: true, repeat: 1, stagger: 0.06 }, 0.5);
+    } else {
+      tl.to(dots, { opacity: 0, scale: 0.4, duration: 0.18, ease: 'power2.in' }, 0)
+        .fromTo(nav, from, { ...to, duration: 1, ease: 'elastic.out(1, 0.65)' }, 0.04)
+        .fromTo(inner, { opacity: 0, scale: 0.92, filter: 'blur(6px)' },
+          { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.45, ease: 'power3.out', clearProps: 'filter,scale' }, 0.18);
+    }
+    // Droplet squash: wide and flat on impact, then springs back.
+    tl.fromTo(nav, { scaleX: 1, scaleY: 1 },
+      { keyframes: [{ scaleX: 1.08, scaleY: 0.86, duration: 0.14, ease: 'power2.out' },
+                    { scaleX: 0.97, scaleY: 1.05, duration: 0.18, ease: 'sine.inOut' },
+                    { scaleX: 1, scaleY: 1, duration: 0.5, ease: 'elastic.out(1, 0.4)' }] }, 0.06);
+    // Ripple the refraction while the glass moves, then let it settle.
+    if (rippleRef.current) {
+      tl.fromTo(rippleRef.current, { attr: { scale: 6 } },
+        { keyframes: [{ attr: { scale: 38 }, duration: 0.18, ease: 'power2.out' },
+                      { attr: { scale: 6 }, duration: 0.9, ease: 'power2.out' }] }, 0.04);
+    }
+  };
+
+  const openMenu = () => morph(false);
+
+  // Full bar only at the very top (the hero). Anywhere else, any scroll closes it,
+  // including after it was opened from the droplet.
+  useEffect(() => {
+    const TOP = 60;
+    let lastY = window.scrollY;
+    if (lastY >= TOP) morph(true, true);
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < TOP) morph(false);
+      else if (Math.abs(y - lastY) > 2) morph(true);
+      lastY = y;
+    };
+    const closeIfOutside = (e) => {
+      if (!collapsedRef.current && window.scrollY >= TOP && !navRef.current?.contains(e.target)) morph(true);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape' && window.scrollY >= TOP) morph(true);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('pointerdown', closeIfOutside);
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('pointerdown', closeIfOutside);
+      window.removeEventListener('keydown', onKey);
+      morphRef.current?.kill();
+    };
+  }, []);
+
   const handleNavClick = (e, sectionId) => {
     e.preventDefault();
     isClickingRef.current = true;
@@ -269,7 +360,16 @@ export default function Navbar() {
         {timeStr || 'LOADING...'}
       </div>
 
-      <nav id="main-nav">
+      {/* Refraction for the glass: low-frequency noise bends what's behind the nav. */}
+      <svg className="nav-filter-defs" aria-hidden="true" focusable="false">
+        <filter id="nav-liquid" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="2" seed="7" result="noise" />
+          <feDisplacementMap ref={rippleRef} in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+
+      <nav id="main-nav" ref={navRef} className={`${collapsed ? 'is-collapsed' : ''} ${canRefract ? 'can-refract' : ''}`.trim()}>
+        <div className="nav-inner" ref={innerRef} aria-hidden={collapsed}>
         <div className="nav-links">
           <div id="nav-indicator" ref={indicatorRef} />
           
@@ -359,6 +459,19 @@ export default function Navbar() {
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
           )}
+        </button>
+        </div>
+
+        <button
+          type="button"
+          className="nav-dots"
+          ref={dotsRef}
+          aria-label="Open navigation"
+          aria-expanded={!collapsed}
+          tabIndex={collapsed ? 0 : -1}
+          onClick={openMenu}
+        >
+          <i /><i /><i />
         </button>
       </nav>
     </>

@@ -124,6 +124,14 @@ export default function ProjectDetailPage() {
             </div>
           </div>
 
+          {project.live && (
+            <a className="project-link-btn project-source-btn" href={project.live} target="_blank" rel="noopener noreferrer">
+              <span>Explore it live</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          )}
           {project.github && (
             <a className="project-link-btn project-source-btn" href={project.github} target="_blank" rel="noopener noreferrer">
               <span>Source on GitHub</span>

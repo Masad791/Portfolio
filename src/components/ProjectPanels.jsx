@@ -32,6 +32,10 @@ export default function ProjectPanels() {
                 onClick={() => setActive(i)}
               >
                 <img src={p.image} alt={`${p.title} preview`} loading="lazy" draggable="false" />
+                {p.video && open && (
+                  // Mounted only while open, so the clip never downloads or plays for closed panels.
+                  <video src={p.video} poster={p.image} autoPlay muted loop playsInline aria-hidden="true" />
+                )}
                 <div className="panel-shade" />
                 <span className="panel-spine" aria-hidden={open}>{p.title}</span>
                 <div className="panel-body" aria-hidden={!open}>
@@ -40,6 +44,11 @@ export default function ProjectPanels() {
                   <p>{p.shortDesc}</p>
                   <div className="panel-meta">
                     <span>{p.stack.slice(0, 3).join(' · ')}</span>
+                    {open && p.live && (
+                      <a className="panel-link panel-link-ghost" href={p.live} target="_blank" rel="noopener noreferrer">
+                        Live ↗
+                      </a>
+                    )}
                     {open && (
                       <MoPortalLink
                         to={`/project/${p.id}`}

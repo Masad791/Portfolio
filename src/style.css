@@ -108,43 +108,104 @@ body.theme-ready {
   z-index: 9999;
 }
 
-/* Navigation Bar */
+/* Navigation Bar: liquid glass that morphs into a 3-dot droplet on scroll */
 nav {
+  --glass-tint: rgba(255, 255, 255, 0.42);
+  --glass-rim: rgba(255, 255, 255, 0.75);
+  --glass-shadow: 0 10px 30px rgba(15, 15, 20, 0.12), 0 1px 3px rgba(15, 15, 20, 0.08);
   position: fixed;
   top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
   z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 20px;
-  background: var(--nav-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--line);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  justify-content: center; /* content shrinks evenly toward the center */
+  overflow: hidden;
   padding: 10px 20px;
-  border-radius: 50px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
+  border-radius: 999px;
   max-width: 95vw;
+  background: var(--glass-tint);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow:
+    inset 0 1px 1px var(--glass-rim),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+    var(--glass-shadow);
+  transform-origin: 50% 0%;
+  transition: background 0.4s ease;
 }
-
-nav:hover {
-  border-color: var(--bh-red);
-  box-shadow: 0 6px 25px rgba(255, 74, 28, 0.16);
+/* Only Chromium renders SVG filters in backdrop-filter; others keep the frosted blur (class set in Navbar). */
+nav.can-refract {
+  backdrop-filter: url(#nav-liquid) blur(10px) saturate(180%);
 }
-
+/* Specular sheen across the top of the glass */
+nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 48%),
+    radial-gradient(120% 140% at 15% -20%, rgba(255, 255, 255, 0.35), transparent 55%);
+  opacity: 0.55;
+  pointer-events: none;
+}
 [data-theme="dark"] nav {
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+  --glass-tint: rgba(28, 28, 32, 0.38);
+  --glass-rim: rgba(255, 255, 255, 0.22);
+  --glass-shadow: 0 12px 34px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
-
-[data-theme="dark"] nav:hover {
-  border-color: var(--bh-red);
-  box-shadow: 0 6px 28px rgba(255, 74, 28, 0.25);
+[data-theme="dark"] nav::before {
+  opacity: 0.18;
 }
-nav.hidden {
-  transform: translateX(-50%) translateY(-200%);
+.nav-filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  width: max-content;
+  position: relative;
+  z-index: 1;
+}
+.nav-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: none;
   opacity: 0;
+  pointer-events: none;
+}
+nav.is-collapsed .nav-dots {
+  pointer-events: auto;
+}
+.nav-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--fg);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+nav.is-collapsed:hover .nav-dots i:nth-child(1) { transform: translateX(-2px); }
+nav.is-collapsed:hover .nav-dots i:nth-child(3) { transform: translateX(2px); }
+.nav-dots:focus-visible {
+  outline: 2px solid var(--bh-red);
+  outline-offset: -4px;
+  border-radius: inherit;
 }
 
 .nav-links {
@@ -546,7 +607,8 @@ border-width: 1px 4px 1px 1px;
 .panel:focus-visible {
   box-shadow: 0 0 0 2px var(--bh-red);
 }
-.panel img {
+.panel img,
+.panel video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -557,7 +619,8 @@ border-width: 1px 4px 1px 1px;
   transition: transform 1s var(--ease), filter 0.6s ease;
 }
 .panel:hover img,
-.panel.is-open img {
+.panel.is-open img,
+.panel video {
   transform: scale(1);
   filter: none;
 }
@@ -641,6 +704,10 @@ border-width: 1px 4px 1px 1px;
   text-decoration: none;
   color: #fff;
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.panel-link-ghost {
+  margin-left: auto;
+  border-color: transparent;
 }
 .panel-link:hover {
   background: #fff;
@@ -1433,8 +1500,10 @@ border-width: 1px 4px 1px 1px;
 @media (min-width: 768px) {
   nav {
     top: 30px;
-    gap: 40px;
     padding: 12px 30px;
+  }
+  .nav-inner {
+    gap: 40px;
   }
   .nav-links {
     gap: 30px;

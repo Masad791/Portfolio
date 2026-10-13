@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Words wrapped in *asterisks* get the accent color.
 const TEXT =
-  'I build *backends* that hold up under real users and *interfaces* people remember. Lately that means *AI voice conversion* on a laptop CPU, a *Chrome extension* that lives on every page, and a permission-first *finance API*.';
+  "I'm Asad, a *full stack developer* who builds things out of *passion*. I love turning ideas into tools people actually use, I help out in the *community* whenever I can, and I'm always ready to *learn something new*.";
 
 // Split into words, tracking whether each one sits inside an *accent* run.
 let inAccent = false;

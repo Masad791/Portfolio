@@ -179,7 +179,7 @@ export const projects = [
     status: "Open Source // MIT",
     transition: "organic-blob",
     transitionWord: "PULSE",
-    image: "/projects/devpulse-ui.webp",
+    image: "/projects/devpulse-live.webp",
     github: "https://github.com/Masad791/devpulse",
     challenge: {
       tag: "01 // CONTEXT",
@@ -233,7 +233,7 @@ export const projects = [
     status: "In Development",
     transition: "organic-blob",
     transitionWord: "CINEMA",
-    image: "/projects/cinebook-ui.webp",
+    image: "/projects/cinebook-curtain.webp",
     gallery: [
       { src: "/projects/cinebook-cover.webp", caption: "// Code. Atomic Redis seat hold" }
     ],
@@ -285,7 +285,7 @@ export const projects = [
     status: "Working Desktop Tool",
     transition: "organic-blob",
     transitionWord: "UPSCALE",
-    image: "/projects/upscaler-ui.webp",
+    image: "/projects/upscaler-real.webp",
     challenge: {
       tag: "01 // CONTEXT",
       title: "Hour-Long Videos on a Laptop",
@@ -316,7 +316,8 @@ export const projects = [
     },
     gallery: [
       { src: "/projects/upscaler-gui.webp", caption: "// 01. One window, four quality modes", fit: "contain" },
-      { src: "/projects/upscaler-cover.webp", caption: "// 02. Measured speeds per mode" }
+      { src: "/projects/upscaler-cover.webp", caption: "// 02. Measured speeds per mode" },
+      { src: "/projects/upscaler-real.webp", caption: "// 03. Real-ESRGAN 4x on a frame from Tears of Steel (CC BY 3.0, Blender Foundation)" }
     ],
     metrics: [
       { number: "~3x", label: "Real time in Fast mode" },
@@ -390,7 +391,9 @@ export const projects = [
     status: "Interactive Experiment",
     transition: "organic-blob",
     transitionWord: "SINGULARITY",
-    image: "/projects/singularity-cover.webp",
+    image: "/projects/singularity-poster.webp",
+    video: "/projects/singularity-loop.mp4",
+    live: "https://singularity-five-kohl.vercel.app",
     challenge: {
       tag: "01 // CONTEXT",
       title: "Gravity You Can Play With",
