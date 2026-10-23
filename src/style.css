@@ -627,7 +627,35 @@ border-width: 1px 4px 1px 1px;
 .panel-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 35%, transparent 70%);
+  /* Deep enough at the bottom that white text reads on light covers too (Task API, CineBook). */
+  background: linear-gradient(to top, rgba(6, 8, 12, 0.96) 0%, rgba(6, 8, 12, 0.86) 26%, rgba(6, 8, 12, 0.55) 46%, rgba(6, 8, 12, 0.18) 64%, transparent 78%);
+}
+.panel-spine,
+.panel-body h3,
+.panel-body p,
+.panel-meta span {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 2px 14px rgba(0, 0, 0, 0.45);
+}
+.panel-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 100%;
+  height: 3px;
+  background: var(--bh-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: panel-progress var(--advance, 5s) linear forwards;
+  animation-play-state: paused;
+}
+.panels.is-running .panel-progress {
+  animation-play-state: running;
+}
+@keyframes panel-progress {
+  to {
+    transform: scaleX(1);
+  }
 }
 .panel-spine {
   position: absolute;

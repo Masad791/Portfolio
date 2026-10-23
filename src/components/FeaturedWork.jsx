@@ -98,7 +98,7 @@ export default function FeaturedWork() {
               </div>
             </div>
             <div className="feature-media">
-              <img src={p.image} alt={`${p.title} preview`} loading="lazy" />
+              <img src={p.image} alt={`${p.title} preview`} loading="lazy" style={p.imagePosition ? { objectPosition: p.imagePosition } : undefined} />
             </div>
             <div className="feature-shade" aria-hidden="true" />
           </div>

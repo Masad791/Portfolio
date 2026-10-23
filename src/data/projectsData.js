@@ -13,7 +13,8 @@ export const projects = [
     status: "Working Desktop App",
     transition: "organic-blob",
     transitionWord: "VOICE",
-    image: "/projects/vc-cover.webp",
+    image: "/projects/vc-linkedin.webp",
+    imagePosition: "50% 0%", // keep the headline in view while the card drifts
     accent: "#ea580c",
     challenge: {
       tag: "01 // CONTEXT",
@@ -285,7 +286,7 @@ export const projects = [
     status: "Working Desktop Tool",
     transition: "organic-blob",
     transitionWord: "UPSCALE",
-    image: "/projects/upscaler-real.webp",
+    image: "/projects/upscaler-saturn.webp",
     challenge: {
       tag: "01 // CONTEXT",
       title: "Hour-Long Videos on a Laptop",
@@ -317,7 +318,8 @@ export const projects = [
     gallery: [
       { src: "/projects/upscaler-gui.webp", caption: "// 01. One window, four quality modes", fit: "contain" },
       { src: "/projects/upscaler-cover.webp", caption: "// 02. Measured speeds per mode" },
-      { src: "/projects/upscaler-real.webp", caption: "// 03. Real-ESRGAN 4x on a frame from Tears of Steel (CC BY 3.0, Blender Foundation)" }
+      { src: "/projects/upscaler-real.webp", caption: "// 03. Real-ESRGAN 4x on a frame from Tears of Steel (CC BY 3.0, Blender Foundation)" },
+      { src: "/projects/upscaler-saturn.webp", caption: "// 04. Real-ESRGAN 4x on a Saturn V launch frame (NASA, public domain)" }
     ],
     metrics: [
       { number: "~3x", label: "Real time in Fast mode" },
@@ -339,7 +341,7 @@ export const projects = [
     status: "Private Repository",
     transition: "organic-blob",
     transitionWord: "TASKS",
-    image: "/projects/taskflow-ui.webp",
+    image: "/projects/taskflow-light.webp",
     gallery: [
       { src: "/projects/taskflow-cover.webp", caption: "// Code. Permission-guarded routes" }
     ],
@@ -391,8 +393,8 @@ export const projects = [
     status: "Interactive Experiment",
     transition: "organic-blob",
     transitionWord: "SINGULARITY",
-    image: "/projects/singularity-poster.webp",
-    video: "/projects/singularity-loop.mp4",
+    image: "/projects/singularity-gr.webp",
+    video: "/projects/singularity-gr-loop.mp4",
     live: "https://singularity-five-kohl.vercel.app",
     challenge: {
       tag: "01 // CONTEXT",
